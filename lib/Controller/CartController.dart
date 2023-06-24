@@ -6,6 +6,7 @@ class CartController extends GetxController {
 
   final CartController instance = Get.find();
   // Add a dict to store the products in the cart.
+  
   var _products = {}.obs;
 
   void addProduct(Product product) {
