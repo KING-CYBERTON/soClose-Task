@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:oxy_boot/View/home_page.dart';
-import 'package:oxy_boot/View/card_screen.dart';
-import 'package:oxy_boot/View/drawer_main_screen.dart';
-import 'package:oxy_boot/View/favourite_screen.dart';
-import 'package:oxy_boot/View/notifications_screen.dart';
-import 'package:oxy_boot/View/profile.dart';
+import 'package:oxy_boot/View/Menu/card_screen.dart';
+import 'package:oxy_boot/View/Menu/drawer_main_screen.dart';
+import 'package:oxy_boot/View/Menu/favourite_screen.dart';
+import 'package:oxy_boot/View/Menu/notifications_screen.dart';
+import 'package:oxy_boot/View/Menu/profile.dart';
 import 'package:oxy_boot/generated/menu_item.dart';
 
 class MainScreen extends StatefulWidget {
@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
       case MenuItems.profile:
         return const ProfileScreen();
       case MenuItems.cart:
-        return const CartScreen();
+        return CartScreen();
       case MenuItems.favourite:
         return const FavouriteScreen();
       case MenuItems.notification:

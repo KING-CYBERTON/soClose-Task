@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:oxy_boot/View/main_screen.dart';
+import 'package:oxy_boot/Widgets/main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -37,9 +37,9 @@ class _SplashScreenState extends State<SplashScreen> {
             height: double.infinity,
             child: Center(
               child: Text(
-                "OXY BOOTS",
+                "Good Times \n     Fashion",
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 245, 245, 10),
                     fontFamily: "airbnb",
                     fontSize: 28.0,
                     fontWeight: FontWeight.bold),

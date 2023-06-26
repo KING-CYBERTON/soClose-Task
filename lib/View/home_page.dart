@@ -1,16 +1,19 @@
-// ignore_for_file: depend_on_referenced_packages
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:oxy_boot/Styles/font_styles.dart';
-import 'package:oxy_boot/View/card_screen.dart';
-import 'package:oxy_boot/View/favourite_screen.dart';
-import 'package:oxy_boot/View/notifications_screen.dart';
-import 'package:oxy_boot/View/profile.dart';
+import 'package:oxy_boot/View/Cart/cartview.dart';
+import 'package:oxy_boot/Widgets/ProductCard.dart';
+import 'package:oxy_boot/View/Menu/card_screen.dart';
+import 'package:oxy_boot/View/Menu/favourite_screen.dart';
+import 'package:oxy_boot/View/Menu/notifications_screen.dart';
+import 'package:oxy_boot/View/Menu/profile.dart';
+import '../DataModel/Product.dart';
 import '../Styles/color.dart';
-import 'brands.dart';
-import 'item_view.dart';
+import '../Widgets/brands.dart';
+import '../Widgets/item_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -21,6 +24,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int navigationIndex = 0;
+
   setBottomBarIndex(index) {
     setState(() {
       navigationIndex = index;
@@ -29,15 +33,24 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    late int index = 0;
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
         color: bgWhite,
         child: Padding(
-          padding: const EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0),
+          padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
           child: Column(
             children: [
+              SizedBox(
+                height: 55,
+                child: Container(
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/images/logo.png"))),
+                ),
+              ),
               SizedBox(
                 height: 55,
                 child: Row(
@@ -45,13 +58,14 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Bounce(
-                        onPressed: () => ZoomDrawer.of(context)!.toggle(),
-                        duration: const Duration(milliseconds: 500),
-                        child: Image.asset(
-                          "assets/icons/menu_ic.png",
-                          width: 44,
-                          height: 44,
-                        )),
+                      onPressed: () => ZoomDrawer.of(context)!.toggle(),
+                      duration: const Duration(milliseconds: 500),
+                      child: Image.asset(
+                        "assets/icons/menu_ic.png",
+                        width: 44,
+                        height: 44,
+                      ),
+                    ),
                     const Spacer(),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +85,10 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(
                               width: 5.0,
                             ),
-                            Text("Mondolibug, Sylhet", style: textStyle2),
+                            Text(
+                              "Mfangano Street,\nSunbeam shopping complex ",
+                              style: textStyle2,
+                            ),
                           ],
                         )
                       ],
@@ -94,10 +111,11 @@ class _HomePageState extends State<HomePage> {
                               width: 10.0,
                               height: 10.0,
                               decoration: BoxDecoration(
-                                  color: Colors.deepOrange,
-                                  borderRadius: BorderRadius.circular(100.0)),
+                                color: Colors.deepOrange,
+                                borderRadius: BorderRadius.circular(100.0),
+                              ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -112,37 +130,37 @@ class _HomePageState extends State<HomePage> {
                         height: 20.0,
                       ),
                       SizedBox(
-                          width: double.infinity,
-                          height: 48.0,
-                          child: TextFormField(
-                            cursorColor: customBlue,
-                            cursorWidth: 2.5,
-                            style: textStyle1,
-                            decoration: InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              contentPadding: EdgeInsets.zero,
-                              hintText: "Looking for shoes",
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child:
-                                    Image.asset("assets/icons/search_ic.png"),
-                              ),
-                              hintStyle: textStyle1,
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Colors.white,
-                                ),
-                                borderRadius: BorderRadius.circular(100.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Colors.white,
-                                ),
-                                borderRadius: BorderRadius.circular(100.0),
-                              ),
+                        width: double.infinity,
+                        height: 48.0,
+                        child: TextFormField(
+                          cursorColor: customBlue,
+                          cursorWidth: 2.5,
+                          style: textStyle1,
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding: EdgeInsets.zero,
+                            hintText: "Search Product,Cartegory",
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Image.asset("assets/icons/search_ic.png"),
                             ),
-                          )),
+                            hintStyle: textStyle1,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Colors.white,
+                              ),
+                              borderRadius: BorderRadius.circular(100.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Colors.white,
+                              ),
+                              borderRadius: BorderRadius.circular(100.0),
+                            ),
+                          ),
+                        ),
+                      ),
                       const SizedBox(
                         height: 20.0,
                       ),
@@ -158,28 +176,30 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Popular Shows",
+                            "Popular Shoes",
                             style: textStyle4,
                           ),
                           TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                "See all",
-                                style: textStyle5,
-                              ))
+                            onPressed: () {},
+                            child: Text(
+                              "See all",
+                              style: textStyle5,
+                            ),
+                          )
                         ],
                       ),
                       SizedBox(
                         height: 200.0,
                         child: ListView.builder(
-                            itemCount: 10,
-                            scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.zero,
-                            itemBuilder: (context, index) {
-                              return ItemView(
-                                currentIndex: index,
-                              );
-                            }),
+                          itemCount: 10,
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.zero,
+                          itemBuilder: (context, index) {
+                            return ItemView(
+                              currentIndex: index,
+                            );
+                          },
+                        ),
                       ),
                       const SizedBox(
                         height: 10.0,
@@ -192,68 +212,20 @@ class _HomePageState extends State<HomePage> {
                             style: textStyle4,
                           ),
                           TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                "See all",
-                                style: textStyle5,
-                              ))
+                            onPressed: () {},
+                            child: Text(
+                              "See all",
+                              style: textStyle5,
+                            ),
+                          )
                         ],
                       ),
                       Column(
                         children: [
-                          for (int i = 0; i < 5; i++)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 5.0),
-                              child: InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      color: Colors.white),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                          child: Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "BEST CHOISE",
-                                              style: textStyle6,
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              "Nike Air Jordan",
-                                              style: textStyle4,
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              "\$ 849.69",
-                                              style: textStyle4,
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                      Expanded(
-                                          child: Image.asset(
-                                        "assets/shows/img1.png",
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        fit: BoxFit.cover,
-                                      )),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
+                          for (int index = 0;
+                              index < Product.products.length;
+                              index++)
+                            ProductCard(index: index),
                         ],
                       )
                     ],
@@ -275,7 +247,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const CartScreen()),
+                MaterialPageRoute(builder: (context) => CartScreen()),
               );
             },
             backgroundColor: customBlue,
@@ -292,9 +264,11 @@ class _HomePageState extends State<HomePage> {
         width: double.infinity,
         height: 100,
         decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/bottomnav_bg.png"),
-                fit: BoxFit.fitWidth)),
+          image: DecorationImage(
+            image: AssetImage("assets/images/bottomnav_bg.png"),
+            fit: BoxFit.fitWidth,
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -309,13 +283,17 @@ class _HomePageState extends State<HomePage> {
                     navigationIndex = 0;
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      MaterialPageRoute(
+                        builder: (context) => const HomePage(),
+                      ),
                     );
                   },
-                  child: Image.asset("assets/icons/home_ic.png",
-                      width: 25,
-                      height: 25,
-                      color: navigationIndex == 0 ? customBlue : customGrey),
+                  child: Image.asset(
+                    "assets/icons/home_ic.png",
+                    width: 25,
+                    height: 25,
+                    color: navigationIndex == 0 ? customBlue : customGrey,
+                  ),
                 ),
                 InkWell(
                   onTap: () {
@@ -323,13 +301,16 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const FavouriteScreen()),
+                        builder: (context) => const FavouriteScreen(),
+                      ),
                     );
                   },
-                  child: Image.asset("assets/icons/favourite_ic.png",
-                      width: 25,
-                      height: 25,
-                      color: navigationIndex == 1 ? customBlue : customGrey),
+                  child: Image.asset(
+                    "assets/icons/favourite_ic.png",
+                    width: 25,
+                    height: 25,
+                    color: navigationIndex == 1 ? customBlue : customGrey,
+                  ),
                 ),
                 const SizedBox(
                   width: 60.0,
@@ -340,13 +321,16 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const NotificationsScreen()),
+                        builder: (context) => const NotificationsScreen(),
+                      ),
                     );
                   },
-                  child: Image.asset("assets/icons/notify_ic.png",
-                      width: 25,
-                      height: 25,
-                      color: navigationIndex == 2 ? customBlue : customGrey),
+                  child: Image.asset(
+                    "assets/icons/notify_ic.png",
+                    width: 25,
+                    height: 25,
+                    color: navigationIndex == 2 ? customBlue : customGrey,
+                  ),
                 ),
                 InkWell(
                   onTap: () {
@@ -354,13 +338,16 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ProfileScreen()),
+                        builder: (context) => const ProfileScreen(),
+                      ),
                     );
                   },
-                  child: Image.asset("assets/icons/user_ic.png",
-                      width: 25,
-                      height: 25,
-                      color: navigationIndex == 3 ? customBlue : customGrey),
+                  child: Image.asset(
+                    "assets/icons/user_ic.png",
+                    width: 25,
+                    height: 25,
+                    color: navigationIndex == 3 ? customBlue : customGrey,
+                  ),
                 ),
               ],
             ),
