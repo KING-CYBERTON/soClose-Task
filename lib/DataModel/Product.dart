@@ -15,15 +15,15 @@ class Product {
   static Product fromSnapshot(DocumentSnapshot snap) {
     Product product = Product(
       snap['PName'],
-      snap['price'],
+      snap['Price'],
       snap['PImage'],
     );
     return product;
   }
 
   static const List<Product> products = [
-    Product('vance', 2500, 'assets/images/vance.png'),
-    Product('AirMax', 2500, 'assets/shows/img2.png'),
-    Product('img3', 2500, 'assets/shows/img3.png')
+    Product('vance', 2500.00, 'assets/images/vance.png'),
+    Product('AirMax', 2500.00, 'assets/shows/img2.png'),
+    Product('img3', 2500.00, 'assets/shows/img3.png')
   ];
 }

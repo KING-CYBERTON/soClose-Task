@@ -77,8 +77,7 @@ class CartTotal extends StatelessWidget {
                 ),
               ),
               Text(
-                '200',
-                //'\$${controller.total.value}',
+                '\$${controller.total.value}',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -128,7 +127,7 @@ void _confirmationDialog() {
             style: TextStyle(color: Colors.black),
           ))
     ],
-    backgroundColor: Color(0xff4D4D4D),
+    backgroundColor: Color(0xff14c9cf),
     titleStyle: TextStyle(
         color: Colors.white,
         fontFamily: 'Poppins',
@@ -145,32 +144,36 @@ void _confirmationDialog() {
             separatorBuilder: (_, i) => Divider(),
             itemCount: controller.products.length,
             itemBuilder: (_, index) {
+              final product = controller.products.keys.toList()[index];
+              final quantity = controller.products.values.toList()[index];
               return ListTile(
                 leading: Container(
                   width: 60,
                   height: 80,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image:
-                              AssetImage(controller.products[index].PImage))),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(product.PImage),
+                    ),
+                  ),
                 ),
                 title: Text(
-                  controller.products[index].PName,
+                  product.PName,
                   style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12),
+                    color: Color(0xffb51010),
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
                 ),
                 subtitle: Text(
-                  "Ksh. " +
-                      (controller.products[index].Price) +
-                      " x " +
-                      controller.products[index].quantity.toString(),
+                  "Ksh. ${product.Price} x $quantity",
                   style: TextStyle(
-                      fontFamily: "Poppins", color: Colors.white, fontSize: 10),
+                    fontFamily: "Poppins",
+                    color: Colors.white,
+                    fontSize: 10,
+                  ),
                 ),
               );
             },
@@ -202,7 +205,7 @@ void _confirmationDialog() {
           height: 5,
         ),
         Text(
-          "Total Ksh. ",
+          'jj',
           style: TextStyle(
               color: Colors.white,
               fontFamily: 'Poppins',

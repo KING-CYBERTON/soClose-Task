@@ -6,6 +6,7 @@ class CartController extends GetxController {
   static CartController instance = Get.find();
   // Add a dict to store the products in the cart.
   var _products = {}.obs;
+  RxDouble grandTotal = RxDouble(0);
 
   void addProduct(Product product) {
     if (_products.containsKey(product)) {
@@ -46,13 +47,12 @@ class CartController extends GetxController {
       .reduce((value, element) => value + element)
       .toStringAsFixed(2);
 
-  // void total() {
-  //   _products.entries
-  //       .map((product) => product.key.price * product.value)
-  //       .toList()
-  //       .reduce((value, element) => value + element)
-  //       .toStringAsFixed(2);
-  // }
+  void calculateGrandTotal() {
+    grandTotal.value = 0;
+    _products.entries.forEach((product) {
+      grandTotal.value += product.key.price * product.value;
+    });
+  }
 
   void transactionCompleted() {
     products.clear();
