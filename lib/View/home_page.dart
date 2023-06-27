@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:oxy_boot/Styles/font_styles.dart';
-import 'package:oxy_boot/View/Cart/cartview.dart';
+
 import 'package:oxy_boot/Widgets/ProductCard.dart';
 import 'package:oxy_boot/View/Menu/card_screen.dart';
 import 'package:oxy_boot/View/Menu/favourite_screen.dart';
