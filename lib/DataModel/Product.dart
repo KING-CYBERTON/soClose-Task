@@ -6,24 +6,24 @@ class Product {
   final String PImage;
   final double price;
 
-  const Product(
-    this.PName,
-    this.price,
-    this.PImage,
-  );
+  const Product({
+    required this.PName,
+    required this.price,
+    required this.PImage,
+  });
 
   static Product fromSnapshot(DocumentSnapshot snap) {
     Product product = Product(
-      snap['PName'],
-      snap['price'],
-      snap['PImage'],
+      PName: snap['PName'],
+      price: snap['price'],
+      PImage: snap['PImage'],
     );
     return product;
   }
 
   static const List<Product> products = [
-    Product('vance', 2500.00, 'assets/images/vance.png'),
-    Product('AirMax', 2500.00, 'assets/shows/img2.png'),
-    Product('img3', 2500.00, 'assets/shows/img3.png')
+    Product(PName: 'vance', price: 2500.00, PImage: 'assets/images/vance.png'),
+    Product(PName: 'AirMax', price: 2500.00, PImage: 'assets/shows/img2.png'),
+    Product(PName: 'img3', price: 2500.00, PImage: 'assets/shows/img3.png')
   ];
 }
