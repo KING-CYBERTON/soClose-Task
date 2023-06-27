@@ -51,7 +51,7 @@ class ProductCard extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      Product.products[index].Price.toString(),
+                      Product.products[index].price.toString(),
                       style: textStyle4,
                     ),
                   ],

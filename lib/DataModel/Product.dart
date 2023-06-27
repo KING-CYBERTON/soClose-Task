@@ -4,18 +4,18 @@ class Product {
   // ignore: non_constant_identifier_names
   final String PName;
   final String PImage;
-  final double Price;
+  final double price;
 
   const Product(
     this.PName,
-    this.Price,
+    this.price,
     this.PImage,
   );
 
   static Product fromSnapshot(DocumentSnapshot snap) {
     Product product = Product(
       snap['PName'],
-      snap['Price'],
+      snap['price'],
       snap['PImage'],
     );
     return product;

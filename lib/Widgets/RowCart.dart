@@ -63,44 +63,53 @@ class CartTotal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 75),
-        child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Total',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+    return Obx(
+      () => controller.products.isEmpty
+          ? const Center(
+              child: Text(""),
+            )
+          : Container(
+              padding: const EdgeInsets.symmetric(horizontal: 75),
+              child: Column(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Total',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'Ksh ${controller.total}',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Text(
-                '\$${controller.total.value}',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                ElevatedButton(
+                  onPressed: () {
+                    _confirmationDialog();
+                  },
+                  style: ElevatedButton.styleFrom(primary: Colors.yellow),
+                  child: Container(
+                    width: double.infinity,
+                    child: Center(
+                      child: Text(
+                        "Proceed",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          ElevatedButton(
-            onPressed: () {
-              _confirmationDialog();
-            },
-            style: ElevatedButton.styleFrom(primary: Colors.yellow),
-            child: Container(
-              width: double.infinity,
-              child: Center(
-                child: Text(
-                  "Proceed",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-            ),
-          ),
-        ]));
+              ])),
+    );
   }
 }
 
@@ -168,7 +177,7 @@ void _confirmationDialog() {
                   ),
                 ),
                 subtitle: Text(
-                  "Ksh. ${product.Price} x $quantity",
+                  "Ksh. ${product.price} x $quantity",
                   style: TextStyle(
                     fontFamily: "Poppins",
                     color: Colors.white,
@@ -205,7 +214,7 @@ void _confirmationDialog() {
           height: 5,
         ),
         Text(
-          'jj',
+          ' Ksh ${controller.total}',
           style: TextStyle(
               color: Colors.white,
               fontFamily: 'Poppins',
@@ -261,7 +270,7 @@ class RowCardCart extends StatelessWidget {
                 ),
                 const SizedBox(height: 10.0),
                 Text(
-                  Product.products[index].Price.toString(),
+                  Product.products[index].price.toString(),
                 ),
                 const SizedBox(height: 10.0),
                 Expanded(

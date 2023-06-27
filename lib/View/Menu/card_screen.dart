@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:oxy_boot/Widgets/CartTotal.dart';
 
 import 'package:oxy_boot/Widgets/RowCart.dart';
 
@@ -17,7 +16,7 @@ class _CartScreenState extends State<CartScreen> {
         backgroundColor: const Color(0xffffffff),
         body: Column(children: [
           const SizedBox(
-            height: 50,
+            height: 10,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
