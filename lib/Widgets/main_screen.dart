@@ -8,6 +8,7 @@ import 'package:oxy_boot/View/Menu/drawer_main_screen.dart';
 import 'package:oxy_boot/View/Menu/favourite_screen.dart';
 import 'package:oxy_boot/View/Menu/notifications_screen.dart';
 import 'package:oxy_boot/View/Menu/profile.dart';
+import 'package:oxy_boot/View/usersignin/Login.dart';
 import 'package:oxy_boot/generated/menu_item.dart';
 
 class MainScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
       case MenuItems.home:
         return const HomePage();
       case MenuItems.profile:
-        return const ProfileScreen();
+        return const LoginInPage();
       case MenuItems.cart:
         return CartScreen();
       case MenuItems.favourite:

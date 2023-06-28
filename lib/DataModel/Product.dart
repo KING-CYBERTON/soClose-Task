@@ -8,9 +8,17 @@ class Product {
 
   const Product({
     required this.PName,
-    required this.price,
     required this.PImage,
+     required this.price,
   });
+
+    Map<String, dynamic> toJson() {
+    return {
+      'PName': PName,
+      'PImage': PImage,
+      'price': price,
+    };
+  }
 
   static Product fromSnapshot(DocumentSnapshot snap) {
     Product product = Product(
@@ -21,9 +29,4 @@ class Product {
     return product;
   }
 
-  static const List<Product> products = [
-    Product(PName: 'vance', price: 2500.00, PImage: 'assets/images/vance.png'),
-    Product(PName: 'AirMax', price: 2500.00, PImage: 'assets/shows/img2.png'),
-    Product(PName: 'img3', price: 2500.00, PImage: 'assets/shows/img3.png')
-  ];
 }

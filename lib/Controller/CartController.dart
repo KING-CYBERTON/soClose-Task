@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:get/get.dart";
 import 'package:flutter/material.dart';
 import '../DataModel/Product.dart';
@@ -47,19 +48,35 @@ class CartController extends GetxController {
       .reduce((value, element) => value + element)
       .toStringAsFixed(2);
 
-  void calculateGrandTotal() {
-    grandTotal.value = 0;
-    _products.entries.forEach((product) {
-      grandTotal.value += product.key.price * product.value;
-    });
+
+
+    void transactionCompleted() async {
+    // Save the cart data to Firestore
+final List orderList = _products.entries.map((entry) {
+    final product = entry.key;
+    final quantity = entry.value;
+    final productJson = product.toJson();
+    productJson['quantity'] = quantity;
+    return productJson;
+  }).toList();
+
+  await FirebaseFirestore.instance
+      .collection('orders')
+      .doc('userId')
+      .set({'products': orderList}); // Assuming _products is a RxMap<String, int>
+
+    // Clear the cart
+    products.clear();
+
+    // Show a success message
+    Get.back();
+    Get.snackbar(
+      "Message",
+      "Transaction succeeded!",
+      colorText: Colors.white,
+      backgroundColor: Color(0xff4D4D4D),
+      snackPosition: SnackPosition.BOTTOM,
+    );
   }
 
-  void transactionCompleted() {
-    products.clear();
-    Get.back();
-    Get.snackbar("Message", "Transaction succeed ! ",
-        colorText: Colors.white,
-        backgroundColor: Color(0xff4D4D4D),
-        snackPosition: SnackPosition.BOTTOM);
-  }
 }

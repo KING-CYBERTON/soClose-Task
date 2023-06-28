@@ -7,7 +7,7 @@ class FirestoreDB {
 
   Stream<List<Product>> getAllProducts() {
     return _firebaseFirestore
-        .collection('products')
+        .collection('Products')
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();

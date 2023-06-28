@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../Controller/CartController.dart';
+import '../Controller/productController.dart';
 import '../DataModel/Product.dart';
 
 class CartProducts extends StatelessWidget {
@@ -115,6 +116,7 @@ class CartTotal extends StatelessWidget {
 
 void _confirmationDialog() {
   final CartController controller = Get.find();
+  final ProductController productController = Get.find();
   Get.defaultDialog(
     title: "Really want to proceed ?",
     actions: [
@@ -163,9 +165,12 @@ void _confirmationDialog() {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage(product.PImage),
-                    ),
+                      image:     
+                 NetworkImage(
+                    productController.products[index].PImage,
                   ),
+                ),
+              ),  
                 ),
                 title: Text(
                   product.PName,
@@ -229,11 +234,12 @@ void _confirmationDialog() {
 // row card for the cart
 
 class RowCardCart extends StatelessWidget {
+  final ProductController productController = Get.find();
   final CartController controller;
   final Product product;
   final int quantity;
   final int index;
-  const RowCardCart(
+   RowCardCart(
       {super.key,
       required this.controller,
       required this.product,
@@ -254,7 +260,9 @@ class RowCardCart extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage(Product.products[index].PImage),
+                image:  NetworkImage(
+                    productController.products[index].PImage,
+                  ),
               ),
             ),
           ),
@@ -265,12 +273,12 @@ class RowCardCart extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  Product.products[index].PName,
+                  productController.products[index].PName,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                 ),
                 const SizedBox(height: 10.0),
                 Text(
-                  Product.products[index].price.toString(),
+                  productController.products[index].price.toString(),
                 ),
                 const SizedBox(height: 10.0),
                 Expanded(

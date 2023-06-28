@@ -9,7 +9,7 @@ import 'package:oxy_boot/Controller/productController.dart';
 
 class ProductCard extends StatelessWidget {
   final cartController = Get.put(CartController());
-
+  final ProductController productController = Get.find();
   final int index;
   ProductCard({super.key, required this.index});
 
@@ -19,7 +19,7 @@ class ProductCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 5.0),
       child: InkWell(
         onTap: () {
-          CartController.instance.addProduct(Product.products[index]);
+          CartController.instance.addProduct(productController.products[index]);
           // Navigator.push(context,
           //     CupertinoPageRoute(builder: (context) => const ProductView()));
         },
@@ -44,26 +44,29 @@ class ProductCard extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      Product.products[index].PName,
+                      productController.products[index].PName,
                       style: textStyle4,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      Product.products[index].price.toString(),
+                      productController.products[index].price.toString(),
                       style: textStyle4,
                     ),
                   ],
                 ),
               )),
               Expanded(
-                  child: Image.asset(
-                Product.products[index].PImage,
-                width: double.infinity,
-                height: double.infinity,
-                fit: BoxFit.contain,
-              )),
+                child: Image(
+                  image: NetworkImage(
+                    productController.products[index].PImage,
+                  ),
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.contain,
+                ),
+              ),
             ],
           ),
         ),

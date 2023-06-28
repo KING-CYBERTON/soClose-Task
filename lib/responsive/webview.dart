@@ -12,6 +12,8 @@ class weblcreenlayout extends StatefulWidget {
 class _weblcreenlayoutState extends State<weblcreenlayout> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar() ,
+    );
   }
 }
