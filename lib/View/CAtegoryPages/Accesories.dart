@@ -3,6 +3,8 @@ import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import '../../Widgets/item_view.dart';
 import '../../Styles/color.dart';
+import 'package:get/get.dart';
+import 'package:oxy_boot/Controller/productController.dart';
 
 class AccesoriesPage extends StatefulWidget {
   const AccesoriesPage({Key? key}) : super(key: key);
@@ -13,7 +15,7 @@ class AccesoriesPage extends StatefulWidget {
 
 class _AccesoriesPageState extends State<AccesoriesPage> {
   int _crossAxisCount = 2; // Initial number of grids
-
+  final ProductController productController = Get.find();
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -41,7 +43,7 @@ class _AccesoriesPageState extends State<AccesoriesPage> {
                 children: [
                   Expanded(
                     child: GridView.builder(
-                      itemCount: 10,
+                      itemCount: productController.products.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: _crossAxisCount,
                         mainAxisSpacing: 10.0,
@@ -49,8 +51,8 @@ class _AccesoriesPageState extends State<AccesoriesPage> {
                         childAspectRatio: 0.8,
                       ),
                       itemBuilder: (context, index) {
-                        return ItemView(
-                          currentIndex: index,
+                        return TShirtCard(
+                          index: index,
                         );
                       },
                     ),

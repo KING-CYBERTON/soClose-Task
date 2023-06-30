@@ -6,10 +6,13 @@ class FirestoreDB {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   Stream<List<Product>> getAllProducts() {
-    return _firebaseFirestore
-        .collection('Products')
-        .snapshots()
-        .map((snapshot) {
+    return _firebaseFirestore.collection('tshirt').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    });
+  }
+
+  Stream<List<Product>> jackets() {
+    return _firebaseFirestore.collection('tshirt').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
   }

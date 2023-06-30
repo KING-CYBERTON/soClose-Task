@@ -359,7 +359,7 @@ import '../Widgets/item_view.dart';
 //     );
 //   }
 // }
-  class HomePage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -368,7 +368,7 @@ import '../Widgets/item_view.dart';
 
 class _HomePageState extends State<HomePage> {
   int navigationIndex = 0;
-   final productController = Get.put(ProductController());
+  final productController = Get.put(ProductController());
 
   setBottomBarIndex(index) {
     setState(() {
@@ -536,13 +536,11 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(
                         height: 200.0,
                         child: ListView.builder(
-                          itemCount: 10,
+                          itemCount: productController.products.length,
                           scrollDirection: Axis.horizontal,
                           padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            return ItemView(
-                              currentIndex: index,
-                            );
+                          itemBuilder: (context, int index) {
+                            return TShirtCard(index: index);
                           },
                         ),
                       ),
@@ -565,8 +563,8 @@ class _HomePageState extends State<HomePage> {
                           )
                         ],
                       ),
-                      Obx(()=>
-                         Column(
+                      Obx(
+                        () => Column(
                           children: [
                             for (int index = 0;
                                 index < productController.products.length;

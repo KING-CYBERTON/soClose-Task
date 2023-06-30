@@ -6,10 +6,12 @@ class ProductController extends GetxController {
   static ProductController instance = Get.find();
   // Add a list of Product objects.
   final products = <Product>[].obs;
+  final jackets = <Product>[].obs;
 
   @override
   void onInit() {
     products.bindStream(FirestoreDB().getAllProducts());
+    jackets.bindStream(FirestoreDB().getAllProducts());
     super.onInit();
   }
 }
