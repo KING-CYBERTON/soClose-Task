@@ -5,6 +5,8 @@ import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:oxy_boot/Styles/font_styles.dart';
+import 'package:oxy_boot/View/CAtegoryPages/Combo.dart';
+import 'package:oxy_boot/View/CAtegoryPages/newarrivals.dart';
 
 import 'package:oxy_boot/Widgets/ProductCard.dart';
 import 'package:oxy_boot/View/Menu/card_screen.dart';
@@ -359,7 +361,7 @@ import '../Widgets/item_view.dart';
 //     );
 //   }
 // }
-  class HomePage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -368,7 +370,7 @@ import '../Widgets/item_view.dart';
 
 class _HomePageState extends State<HomePage> {
   int navigationIndex = 0;
-   final productController = Get.put(ProductController());
+  final productController = Get.put(ProductController());
 
   setBottomBarIndex(index) {
     setState(() {
@@ -390,82 +392,85 @@ class _HomePageState extends State<HomePage> {
             children: [
               SizedBox(
                 height: 55,
-                child: Container(
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage("images/G(1).png"))),
-                ),
-              ),
-              SizedBox(
-                height: 55,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Bounce(
-                      onPressed: () => ZoomDrawer.of(context)!.toggle(),
-                      duration: const Duration(milliseconds: 500),
-                      child: Image.asset(
-                        "assets/icons/menu_ic.png",
-                        width: 44,
-                        height: 44,
-                      ),
-                    ),
-                    const Spacer(),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Store location",
-                          style: textStyle1,
+                
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Bounce(
+                        onPressed: () => ZoomDrawer.of(context)!.toggle(),
+                        duration: const Duration(milliseconds: 500),
+                        child: Image.asset(
+                          "assets/icons/menu_ic.png",
+                          width: 44,
+                          height: 44,
                         ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/icons/location_ic.png",
-                              width: 14,
-                              height: 14.0,
-                            ),
-                            const SizedBox(
-                              width: 5.0,
-                            ),
-                            Text(
-                              "Mfangano Street,\nSunbeam shopping complex ",
-                              style: textStyle2,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                    const Spacer(),
-                    Bounce(
-                      onPressed: () {},
-                      duration: const Duration(milliseconds: 500),
-                      child: Stack(
+                      ),
+                      const Spacer(),
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage("images/G(1).png")),
+                        ),
+                      ),
+                      const Spacer(),
+                       Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            "assets/icons/cart_ic.png",
-                            width: 44.0,
-                            height: 44.0,
+                          Text(
+                            "Store location",
+                            style: textStyle1,
                           ),
-                          Positioned(
-                            right: 0,
-                            top: 5,
-                            child: Container(
-                              width: 10.0,
-                              height: 10.0,
-                              decoration: BoxDecoration(
-                                color: Colors.deepOrange,
-                                borderRadius: BorderRadius.circular(100.0),
+                          Row(
+                            children: [
+                              Image.asset(
+                                "assets/icons/location_ic.png",
+                                width: 14,
+                                height: 14.0,
                               ),
-                            ),
-                          ),
+                              const SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                "Mfangano Street,\nSunbeam shopping complex ",
+                                style: textStyle2,
+                              ),
+                            ],
+                          )
                         ],
                       ),
-                    ),
-                  ],
-                ),
+                      const Spacer(),
+                      Bounce(
+                        onPressed: () {},
+                        duration: const Duration(milliseconds: 500),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              "assets/icons/cart_ic.png",
+                              width: 44.0,
+                              height: 44.0,
+                            ),
+                            Positioned(
+                              right: 0,
+                              top: 5,
+                              child: Container(
+                                width: 10.0,
+                                height: 10.0,
+                                decoration: BoxDecoration(
+                                  color: Colors.deepOrange,
+                                  borderRadius: BorderRadius.circular(100.0),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -521,11 +526,18 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Popular Shoes",
+                            "Outfit Specials",
                             style: textStyle4,
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ComboPage(),
+                                ),
+                              );
+                            },
                             child: Text(
                               "See all",
                               style: textStyle5,
@@ -536,12 +548,12 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(
                         height: 200.0,
                         child: ListView.builder(
-                          itemCount: 10,
+                          itemCount: productController.combo.length,
                           scrollDirection: Axis.horizontal,
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) {
-                            return ItemView(
-                              currentIndex: index,
+                            return ComboCard(
+                              index: index,
                             );
                           },
                         ),
@@ -557,7 +569,14 @@ class _HomePageState extends State<HomePage> {
                             style: textStyle4,
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const NewArrivalsPage(),
+                                ),
+                              );
+                            },
                             child: Text(
                               "See all",
                               style: textStyle5,
@@ -565,8 +584,8 @@ class _HomePageState extends State<HomePage> {
                           )
                         ],
                       ),
-                      Obx(()=>
-                         Column(
+                      Obx(
+                        () => Column(
                           children: [
                             for (int index = 0;
                                 index < productController.products.length;

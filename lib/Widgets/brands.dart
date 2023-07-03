@@ -3,10 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:oxy_boot/View/CAtegoryPages/Accesories.dart';
+import 'package:oxy_boot/View/CAtegoryPages/Shoes.dart';
+import 'package:oxy_boot/View/CAtegoryPages/Tshirt.dart';
+import 'package:oxy_boot/View/CAtegoryPages/trouser.dart';
 import 'package:oxy_boot/Widgets/prodouct.dart';
 
 import '../Styles/color.dart';
 import '../Styles/font_styles.dart';
+import '../View/CAtegoryPages/Combo.dart';
+import '../View/CAtegoryPages/jackect.dart';
 
 class Brands extends StatefulWidget {
   const Brands({Key? key}) : super(key: key);
@@ -50,7 +55,7 @@ class _BrandsState extends State<Brands> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ECommerceScreen(),
+                      builder: (context) => const ShoesPage(),
                     ),
                   );
                   currentIndex = 0;
@@ -95,7 +100,7 @@ class _BrandsState extends State<Brands> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AccesoriesPage(),
+                      builder: (context) => const TshirtPage(),
                     ),
                   );
                   currentIndex = 1;
@@ -137,6 +142,11 @@ class _BrandsState extends State<Brands> {
               padding: const EdgeInsets.all(5.0),
               child: Bounce(
                 onPressed: () {
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const trouserPage(),
+                    ),);
                   currentIndex = 2;
                   setState(() {});
                 },
@@ -176,6 +186,11 @@ class _BrandsState extends State<Brands> {
               padding: const EdgeInsets.all(5.0),
               child: Bounce(
                 onPressed: () {
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const JacketPage(),
+                    ),);
                   currentIndex = 3;
                   setState(() {});
                 },
@@ -215,6 +230,11 @@ class _BrandsState extends State<Brands> {
               padding: const EdgeInsets.all(5.0),
               child: Bounce(
                 onPressed: () {
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AccesoriesPage(),
+                    ),);
                   currentIndex = 4;
                   setState(() {});
                 },
@@ -241,7 +261,7 @@ class _BrandsState extends State<Brands> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 45, right: 10),
                   child: Text(
-                    "Nike",
+                    "Outfits",
                     style: textStyle3,
                   ),
                 ),
@@ -251,6 +271,11 @@ class _BrandsState extends State<Brands> {
               padding: const EdgeInsets.all(5.0),
               child: Bounce(
                 onPressed: () {
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ComboPage(),
+                    ),);
                   currentIndex = 5;
                   setState(() {});
                 },

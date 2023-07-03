@@ -107,7 +107,7 @@ class _LoginInPageState extends State<LoginInPage> {
                         text: TextSpan(
                       text: "Don't have an account?",
                       style: const TextStyle(
-                        color: Colors.black87,
+                        color: Color.fromARGB(221, 51, 48, 48),
                       ),
                       children: [
                         TextSpan(

@@ -196,6 +196,7 @@ void _confirmationDialog() {
         SizedBox(
           height: 5,
         ),
+        
         Text(
           'name',
           style: TextStyle(
