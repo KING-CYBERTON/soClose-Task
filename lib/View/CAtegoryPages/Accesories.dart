@@ -9,6 +9,8 @@ import '../../Controller/productController.dart';
 import '../../Styles/font_styles.dart';
 import '../../Widgets/item_view.dart';
 import '../../Styles/color.dart';
+import 'package:get/get.dart';
+import 'package:oxy_boot/Controller/productController.dart';
 import '../product_view.dart';
 
 class AccesoriesPage extends StatefulWidget {
@@ -21,7 +23,7 @@ class AccesoriesPage extends StatefulWidget {
 class _AccesoriesPageState extends State<AccesoriesPage> {
    final ProductController productController = Get.find();
   int _crossAxisCount = 2; // Initial number of grids
-
+  
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;

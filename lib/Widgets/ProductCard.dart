@@ -19,7 +19,7 @@ class ProductCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 5.0),
       child: InkWell(
         onTap: () {
-          CartController.instance.addProduct(productController.products[index]);
+          CartController.instance.addProduct(productController.jackets[index]);
           // Navigator.push(context,
           //     CupertinoPageRoute(builder: (context) => const ProductView()));
         },
