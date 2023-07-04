@@ -83,7 +83,7 @@ class MenuScreen extends StatelessWidget {
                         bottom: 0,
                         left: 5,
                         child: Text(
-                          'Boss Njugush',
+                          'Boss ',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 24,

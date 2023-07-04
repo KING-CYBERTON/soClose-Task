@@ -7,7 +7,7 @@ class FirestoreDB {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   Stream<List<Product>> newarrivals() {
-    return _firebaseFirestore.collection('newarrivals').snapshots().map((snapshot) {
+    return _firebaseFirestore.collection('newarrival').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
   }
@@ -18,7 +18,7 @@ class FirestoreDB {
     });
   }
     Stream<List<Product>> Jackets() {
-    return _firebaseFirestore.collection('jackets').snapshots().map((snapshot) {
+    return _firebaseFirestore.collection('jacket').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
   }

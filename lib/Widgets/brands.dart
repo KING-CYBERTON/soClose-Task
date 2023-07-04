@@ -5,9 +5,11 @@ import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:oxy_boot/View/CAtegoryPages/Accesories.dart';
 import 'package:oxy_boot/View/CAtegoryPages/Shoes.dart';
 import 'package:oxy_boot/View/CAtegoryPages/Tshirt.dart';
+import 'package:oxy_boot/View/CAtegoryPages/Categorycards.dart';
 import 'package:oxy_boot/View/CAtegoryPages/trouser.dart';
-import 'package:oxy_boot/Widgets/prodouct.dart';
-
+import 'package:oxy_boot/Widgets/ProductCard.dart';
+import '../Controller/productController.dart';
+import '../DataModel/Product.dart';
 import '../Styles/color.dart';
 import '../Styles/font_styles.dart';
 import '../View/CAtegoryPages/Combo.dart';
@@ -21,7 +23,10 @@ class Brands extends StatefulWidget {
 }
 
 class _BrandsState extends State<Brands> {
+  final ProductController productController = ProductController();
   int currentIndex = 0;
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +60,7 @@ class _BrandsState extends State<Brands> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ShoesPage(),
-                    ),
-                  );
+                      builder: (context) =>   ShoePagee()));
                   currentIndex = 0;
                   setState(() {});
                 },
@@ -100,7 +103,7 @@ class _BrandsState extends State<Brands> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const TshirtPage(),
+                      builder: (context) => const ShirtPagee(),
                     ),
                   );
                   currentIndex = 1;
@@ -145,7 +148,7 @@ class _BrandsState extends State<Brands> {
                    Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const trouserPage(),
+                      builder: (context) => const TrouserPagee(),
                     ),);
                   currentIndex = 2;
                   setState(() {});
@@ -189,7 +192,7 @@ class _BrandsState extends State<Brands> {
                    Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const JacketPage(),
+                      builder: (context) => const JacketsPagee(),
                     ),);
                   currentIndex = 3;
                   setState(() {});
@@ -233,7 +236,7 @@ class _BrandsState extends State<Brands> {
                    Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AccesoriesPage(),
+                      builder: (context) =>  Accesories(),
                     ),);
                   currentIndex = 4;
                   setState(() {});
@@ -274,14 +277,14 @@ class _BrandsState extends State<Brands> {
                    Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ComboPage(),
+                      builder: (context) => const ComboPagee(),
                     ),);
                   currentIndex = 5;
                   setState(() {});
                 },
                 duration: const Duration(milliseconds: 200),
                 child: Image.asset(
-                  "assets/logos/nike_logo.png",
+                  "assets/images/outfits.png",
                   width: currentIndex == 5 ? 34.0 : 44.0,
                   height: currentIndex == 5 ? 34.0 : 44.0,
                 ),

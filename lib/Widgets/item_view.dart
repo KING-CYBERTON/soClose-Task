@@ -12,10 +12,9 @@ import '../Controller/productController.dart';
 import 'package:get/get.dart';
 
 class ItemView extends StatefulWidget {
-  int currentIndex;
+
   ItemView({
     super.key,
-    required this.currentIndex,
   });
 
   @override

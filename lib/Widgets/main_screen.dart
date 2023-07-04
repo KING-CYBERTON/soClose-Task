@@ -5,8 +5,6 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:oxy_boot/View/home_page.dart';
 import 'package:oxy_boot/View/Menu/card_screen.dart';
 import 'package:oxy_boot/View/Menu/drawer_main_screen.dart';
-import 'package:oxy_boot/View/Menu/favourite_screen.dart';
-import 'package:oxy_boot/View/Menu/notifications_screen.dart';
 import 'package:oxy_boot/View/Menu/profile.dart';
 import 'package:oxy_boot/View/usersignin/Login.dart';
 import 'package:oxy_boot/generated/menu_item.dart';
@@ -45,14 +43,8 @@ class _MainScreenState extends State<MainScreen> {
     switch (currentItem) {
       case MenuItems.home:
         return const HomePage();
-      case MenuItems.profile:
-        return const LoginInPage();
       case MenuItems.cart:
         return CartScreen();
-      case MenuItems.favourite:
-        return const FavouriteScreen();
-      case MenuItems.notification:
-        return const NotificationsScreen();
     }
     return Container();
   }
