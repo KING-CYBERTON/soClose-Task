@@ -284,7 +284,7 @@ class _BrandsState extends State<Brands> {
                 },
                 duration: const Duration(milliseconds: 200),
                 child: Image.asset(
-                  "assets/images/outfits.png",
+                  "assets/images/outfit.png",
                   width: currentIndex == 5 ? 34.0 : 44.0,
                   height: currentIndex == 5 ? 34.0 : 44.0,
                 ),

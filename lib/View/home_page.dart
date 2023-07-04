@@ -396,7 +396,7 @@ class AboutUsDialog extends StatelessWidget {
                url;
               },
               icon: Image.asset(
-                'asssets/images/instagram.png', // Replace with the path to your Facebook logo
+                'assets/images/instagram.png', // Replace with the path to your Facebook logo
                 width: 30,
                 height: 30,
               ),
@@ -408,7 +408,7 @@ class AboutUsDialog extends StatelessWidget {
                loc;
               },
               icon: Image.asset(
-                'asssets/images/google-maps.png', // Replace with the path to your Facebook logo
+                'assets/images/google-maps.png', // Replace with the path to your Facebook logo
                 width: 30,
                 height: 30,
               ),
@@ -420,7 +420,7 @@ class AboutUsDialog extends StatelessWidget {
                wa;
               },
               icon: Image.asset(
-                'asssets/images/whatsapp.png', // Replace with the path to your Facebook logo
+                'assets/images/whatsapp.png', // Replace with the path to your Facebook logo
                 width: 30,
                 height: 30,
               ),
