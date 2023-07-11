@@ -31,28 +31,7 @@ class CartProducts extends StatelessWidget {
                     );
                   }),
             ),
-      // Container(
-      //   padding: const EdgeInsets.symmetric(horizontal: 75),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //     children: [
-      //       Text(
-      //         'Total',
-      //         style: TextStyle(
-      //           fontSize: 24,
-      //           fontWeight: FontWeight.bold,
-      //         ),
-      //       ),
-      //       Text(
-      //         '\$${controller.total.value}',
-      //         style: TextStyle(
-      //           fontSize: 24,
-      //           fontWeight: FontWeight.bold,
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // )
+    
     );
   }
 }
@@ -75,19 +54,19 @@ class CartTotal extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Total',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Text(
                       'Ksh ${controller.total}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -98,10 +77,10 @@ class CartTotal extends StatelessWidget {
                   onPressed: () {
                     _confirmationDialog();
                   },
-                  style: ElevatedButton.styleFrom(primary: Colors.yellow),
-                  child: Container(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.yellow),
+                  child: SizedBox(
                     width: double.infinity,
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "Proceed",
                         style: TextStyle(color: Colors.black),
@@ -116,30 +95,30 @@ class CartTotal extends StatelessWidget {
 
 void _confirmationDialog() {
   final CartController controller = Get.find();
-  final ProductController productController = Get.find();
+ 
   Get.defaultDialog(
     title: "Really want to proceed ?",
     actions: [
       ElevatedButton(
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.black)),
+              backgroundColor: MaterialStateProperty.all(Colors.red)),
           onPressed: () {
             Get.back();
           },
-          child: Text("Cancel")),
+          child: const Text("Cancel")),
       ElevatedButton(
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Colors.yellow)),
           onPressed: () {
             controller.transactionCompleted();
           },
-          child: Text(
+          child: const Text(
             "Confirm",
             style: TextStyle(color: Colors.black),
           ))
     ],
-    backgroundColor: Color(0xff14c9cf),
-    titleStyle: TextStyle(
+    backgroundColor: const Color(0xff14c9cf),
+    titleStyle: const TextStyle(
         color: Colors.white,
         fontFamily: 'Poppins',
         fontSize: 17,
@@ -148,11 +127,11 @@ void _confirmationDialog() {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           width: 300,
           height: 200,
           child: ListView.separated(
-            separatorBuilder: (_, i) => Divider(),
+            separatorBuilder: (_, i) => const Divider(),
             itemCount: controller.products.length,
             itemBuilder: (_, index) {
               final product = controller.products.keys.toList()[index];
@@ -162,19 +141,19 @@ void _confirmationDialog() {
                   width: 60,
                   height: 80,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image:     
                  NetworkImage(
-                    productController.products[index].PImage,
+                    product.PImage,
                   ),
                 ),
               ),  
                 ),
                 title: Text(
                   product.PName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xffb51010),
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.bold,
@@ -183,7 +162,7 @@ void _confirmationDialog() {
                 ),
                 subtitle: Text(
                   "Ksh. ${product.price} x $quantity",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: "Poppins",
                     color: Colors.white,
                     fontSize: 10,
@@ -193,11 +172,11 @@ void _confirmationDialog() {
             },
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         
-        Text(
+        const Text(
           'name',
           style: TextStyle(
               color: Colors.white,
@@ -205,10 +184,10 @@ void _confirmationDialog() {
               fontWeight: FontWeight.bold,
               fontSize: 12),
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
-        Text(
+        const Text(
           'email',
           style: TextStyle(
               color: Colors.white,
@@ -216,12 +195,12 @@ void _confirmationDialog() {
               fontWeight: FontWeight.bold,
               fontSize: 12),
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         Text(
           ' Ksh ${controller.total}',
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.white,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.bold,
@@ -235,12 +214,11 @@ void _confirmationDialog() {
 // row card for the cart
 
 class RowCardCart extends StatelessWidget {
-  final ProductController productController = Get.find();
   final CartController controller;
   final Product product;
   final int quantity;
   final int index;
-   RowCardCart(
+   const RowCardCart(
       {super.key,
       required this.controller,
       required this.product,
@@ -249,7 +227,7 @@ class RowCardCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 120.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -262,7 +240,7 @@ class RowCardCart extends StatelessWidget {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image:  NetworkImage(
-                    productController.products[index].PImage,
+                    product.PImage,
                   ),
               ),
             ),
@@ -274,26 +252,26 @@ class RowCardCart extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  productController.products[index].PName,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                  product.PName,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                 ),
                 const SizedBox(height: 10.0),
                 Text(
-                  productController.products[index].price.toString(),
+                  product.price.toString(),
                 ),
                 const SizedBox(height: 10.0),
                 Expanded(
                     child: Row(
                   children: [
                     ElevatedButton.icon(
-                      icon: Icon(Icons.delete),
+                      icon: const Icon(Icons.delete),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
+                        backgroundColor: Colors.red,
                       ),
                       onPressed: () {
                         controller.deleteProduct(product);
                       },
-                      label: Text("Remove"),
+                      label: const Text("Remove"),
                     ),
                     Row(
                       children: [
@@ -302,7 +280,7 @@ class RowCardCart extends StatelessWidget {
                             controller.removeProduct(product);
                           },
                           // controller.removeProduct(product),
-                          icon: Icon(Icons.remove),
+                          icon: const Icon(Icons.remove),
                         ),
                         Text(quantity.toString()),
                         IconButton(
@@ -310,7 +288,7 @@ class RowCardCart extends StatelessWidget {
                             controller.addProduct(product);
                           },
                           //  controller.addProduct(product),
-                          icon: Icon(Icons.add),
+                          icon: const Icon(Icons.add),
                         ),
                       ],
                     )

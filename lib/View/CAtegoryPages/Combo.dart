@@ -1,14 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oxy_boot/View/CAtegoryPages/Categorycards.dart';
-import '../../Controller/CartController.dart';
 import '../../Controller/productController.dart';
-import '../../DataModel/Product.dart';
 import '../../Styles/color.dart';
-import '../../Styles/font_styles.dart';
-import 'package:flutter_bounce/flutter_bounce.dart';
-import '../product_view.dart';
+import '../Menu/card_screen.dart';
 
 
 class ComboPagee extends StatefulWidget {
@@ -44,7 +39,16 @@ class _ComboPageeState extends State<ComboPagee> {
         title: const Text('Combos Outfits'),
         actions: [
           IconButton(
-            icon: _isGridView ? Icon(Icons.list) : Icon(Icons.grid_view),
+            icon:const Icon(Icons.shopping_cart),
+            onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CartScreen()),
+              );
+            },
+          ),
+          IconButton(
+            icon: _isGridView ? const Icon(Icons.list) : const Icon(Icons.grid_view),
             onPressed: () {
               setState(() {
                 _isGridView = !_isGridView;
@@ -53,22 +57,27 @@ class _ComboPageeState extends State<ComboPagee> {
           ),
         ],
       ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: bgWhite,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-          child: Column(
-            children: [
-              ProductList(
-                productList: productController.combo, // Pass the product type to getProductList
-                isGridView: _isGridView,
-                screenWidth: _crossAxisCount,
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: bgWhite,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+              child: Column(
+                children: [
+                  ProductList(
+                    productList: productController.combo, // Pass the product type to getProductList
+                    isGridView: _isGridView,
+                    screenWidth: _crossAxisCount,
+                  ),
+                  
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

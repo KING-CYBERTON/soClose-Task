@@ -7,8 +7,10 @@ import 'package:oxy_boot/View/CAtegoryPages/Categorycards.dart';
 
 import 'package:oxy_boot/View/CAtegoryPages/newarrivals.dart';
 import 'package:oxy_boot/View/Menu/card_screen.dart';
+import 'package:photo_view/photo_view.dart';
 
 import '../Controller/productController.dart';
+import '../DataModel/Product.dart';
 import '../Styles/color.dart';
 import '../Widgets/brands.dart';
 
@@ -445,3 +447,4 @@ class AboutUsDialog extends StatelessWidget {
     );
   }
 }
+

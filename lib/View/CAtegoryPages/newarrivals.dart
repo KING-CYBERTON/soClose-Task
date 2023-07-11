@@ -8,6 +8,7 @@ import '../../DataModel/Product.dart';
 import '../../Styles/color.dart';
 import '../../Styles/font_styles.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
+import '../Menu/card_screen.dart';
 import '../product_view.dart';
 
 
@@ -44,7 +45,16 @@ class _NewArrivalsState extends State<NewArrivals> {
         title: const Text('Shirts'),
         actions: [
           IconButton(
-            icon: _isGridView ? Icon(Icons.list) : Icon(Icons.grid_view),
+            icon:const Icon(Icons.shopping_cart),
+            onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CartScreen()),
+              );
+            },
+          ),
+          IconButton(
+            icon: _isGridView ? const Icon(Icons.list) : const Icon(Icons.grid_view),
             onPressed: () {
               setState(() {
                 _isGridView = !_isGridView;
