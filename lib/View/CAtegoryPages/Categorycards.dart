@@ -10,7 +10,6 @@ import '../../Styles/font_styles.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import '../product_view.dart';
 
-
 class ProductList extends StatelessWidget {
   final List<Product> productList;
   final bool isGridView;
@@ -19,8 +18,8 @@ class ProductList extends StatelessWidget {
   const ProductList({
     required this.productList,
     required this.isGridView,
-    
-    Key? key, required this.screenWidth,
+    Key? key,
+    required this.screenWidth,
   }) : super(key: key);
 
   @override
@@ -30,7 +29,8 @@ class ProductList extends StatelessWidget {
           ? GridView.builder(
               itemCount: productList.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: screenWidth, // Change the cross-axis count as needed
+                crossAxisCount:
+                    screenWidth, // Change the cross-axis count as needed
                 mainAxisSpacing: 10.0,
                 crossAxisSpacing: 10.0,
                 childAspectRatio: 0.8,
@@ -58,7 +58,7 @@ class ProductCard extends StatelessWidget {
   final Product product;
   final CartController cartController = Get.put(CartController());
 
-   ProductCard({Key? key, required this.product}) : super(key: key);
+  ProductCard({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -97,29 +97,31 @@ class ProductCard extends StatelessWidget {
                         product.price.toString(),
                         style: textStyle4,
                       ),
+                      
                     ],
                   ),
                 ),
               ),
+             
+
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                     showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return ImageViewDialog(product: product);
-                        },
-                      );
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ImageViewDialog(product: product);
+                      },
+                    );
                   },
-                    child: Image(
-                      image: NetworkImage(product.PImage),
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.contain,
-                    ),
+                  child: Image(
+                    image: NetworkImage(product.PImage),
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
-              
+              ),
             ],
           ),
         ),
@@ -128,121 +130,114 @@ class ProductCard extends StatelessWidget {
   }
 }
 
-
 class ProductCard2 extends StatelessWidget {
-
   final Product productList;
 
-  const ProductCard2({Key? key,  required this.productList})
-      : super(key: key);
+  const ProductCard2({Key? key, required this.productList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final cartController = Get.put(CartController());
     final ProductController productController = Get.find();
 
-      return Padding(
-        padding: const EdgeInsets.only(right: 15),
-        child: Bounce(
-          onPressed: () {
-              showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return ImageViewDialog(product: productList);
-                        },
-                      );
-          },
-          duration: const Duration(milliseconds: 500),
-          child: Container(
-            width: 160.0,
-            height: 200.0,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-            child: Column(
-              children: [
-             
-                     Expanded(
-                      flex: 3,
-                      child: Image(
-                        image: NetworkImage(productList.PImage),
-                        width: double.infinity,
-                        height: double.infinity,
-                        fit: BoxFit.contain,
-                      ),
-                    
-                  ),
-                
-                Expanded(
-                  flex: 2,
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "BEST SELLER",
-                                style: textStyle6,
-                                textAlign: TextAlign.start,
-                              ),
-                              const SizedBox(
-                                height: 2.0,
-                              ),
-                              Text(
-                                productList.PName,
-                                style: textStyle4,
-                              ),
-                              const SizedBox(
-                                height: 5.0,
-                              ),
-                              Text(
-                                productList.price.toString(),
-                                style: textStyle4,
-                              ),
-                            ],
-                          ),
+    return Padding(
+      padding: const EdgeInsets.only(right: 15),
+      child: Bounce(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return ImageViewDialog(product: productList);
+            },
+          );
+        },
+        duration: const Duration(milliseconds: 500),
+        child: Container(
+          width: 160.0,
+          height: 200.0,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Image(
+                  image: NetworkImage(productList.PImage),
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: SizedBox(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "BEST SELLER",
+                              style: textStyle6,
+                              textAlign: TextAlign.start,
+                            ),
+                            const SizedBox(
+                              height: 2.0,
+                            ),
+                            Text(
+                              productList.PName,
+                              style: textStyle4,
+                            ),
+                            const SizedBox(
+                              height: 5.0,
+                            ),
+                            Text(
+                              productList.price.toString(),
+                              style: textStyle4,
+                            ),
+                          ],
                         ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Bounce(
-                            onPressed: () {
-                                 cartController.addProduct(productList);
-                            },
-                            duration: const Duration(milliseconds: 500),
-                            child: Container(
-                              width: 44.0,
-                              height: 44.0,
-                              decoration: BoxDecoration(
-                                color: customBlue,
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(20.0),
-                                  bottomRight: Radius.circular(16.0),
-                                ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Bounce(
+                          onPressed: () {
+                            cartController.addProduct(productList);
+                          },
+                          duration: const Duration(milliseconds: 500),
+                          child: Container(
+                            width: 44.0,
+                            height: 44.0,
+                            decoration: BoxDecoration(
+                              color: customBlue,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20.0),
+                                bottomRight: Radius.circular(16.0),
                               ),
-                              child: const Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
+                            ),
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
-    
+      ),
+    );
   }
 }
 
@@ -253,27 +248,30 @@ class ImageViewDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            title: Text(product.PName),
-            trailing: IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.5,
-            child: PhotoView(
+    return Container(
+      width: MediaQuery.of(context).size.width ,
+      height: MediaQuery.of(context).size.height * 0.4,
+      child: Dialog(
+        child: Stack(
+          children: [
+            PhotoView(
               imageProvider: NetworkImage(product.PImage),
               minScale: PhotoViewComputedScale.contained * 0.8,
               maxScale: PhotoViewComputedScale.covered * 2,
             ),
-          ),
-        ],
+            Text(
+              product.PName,
+              style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+            ),
+            Center(
+              child: Text('@GoodTimes_Trends\n ${product.PName}',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontStyle: FontStyle.italic,
+                      color: Colors.lightBlue[700])),
+            )
+          ],
+        ),
       ),
     );
   }
