@@ -8,6 +8,9 @@ import 'package:oxy_boot/View/Menu/drawer_main_screen.dart';
 import 'package:oxy_boot/View/Menu/profile.dart';
 import 'package:oxy_boot/View/usersignin/Login.dart';
 import 'package:oxy_boot/generated/menu_item.dart';
+import 'package:oxy_boot/responsive/mobile.dart';
+import 'package:oxy_boot/responsive/response.dart';
+import 'package:oxy_boot/responsive/webview.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -42,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget getScreen() {
     switch (currentItem) {
       case MenuItems.home:
-        return const HomePage();
+        return const  ResponsiveLayout(mobileScreenLayout: mobilescreenlayout(), webScreenLayout: weblcreenlayout());
       case MenuItems.cart:
         return CartScreen();
     }

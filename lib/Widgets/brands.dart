@@ -16,7 +16,8 @@ import '../View/CAtegoryPages/Combo.dart';
 import '../View/CAtegoryPages/jackect.dart';
 
 class Brands extends StatefulWidget {
-  const Brands({Key? key}) : super(key: key);
+  int currentIndex = 0;
+  Brands({Key? key, required this .currentIndex} ) : super(key: key);
 
   @override
   State<Brands> createState() => _BrandsState();

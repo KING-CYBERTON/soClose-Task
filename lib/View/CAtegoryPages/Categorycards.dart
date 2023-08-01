@@ -154,7 +154,7 @@ class ProductCard2 extends StatelessWidget {
         duration: const Duration(milliseconds: 500),
         child: Container(
           width: 160.0,
-          height: 200.0,
+          height: 160.0,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16.0),
@@ -171,7 +171,7 @@ class ProductCard2 extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: SizedBox(
                   width: double.infinity,
                   height: double.infinity,
@@ -195,7 +195,7 @@ class ProductCard2 extends StatelessWidget {
                               style: textStyle4,
                             ),
                             const SizedBox(
-                              height: 5.0,
+                              height: 2.0,
                             ),
                             Text(
                               productList.price.toString(),

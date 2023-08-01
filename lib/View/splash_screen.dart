@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
             "assets/images/splash_bg.jpg",
             width: double.infinity,
             height: double.infinity,
-            fit: BoxFit.fill,
+            fit: BoxFit.contain,
           ),
           const SizedBox(
             width: double.infinity,
