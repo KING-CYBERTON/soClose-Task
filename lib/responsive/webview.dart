@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:oxy_boot/Styles/color.dart';
-import 'package:oxy_boot/View/home_page.dart';
+
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:oxy_boot/responsive/mobile.dart';
 
 import '../Styles/font_styles.dart';
 
@@ -122,7 +123,7 @@ class _weblcreenlayoutState extends State<weblcreenlayout> {
           color: bgWhite,
           height: double.infinity,
           width: MediaQuery.of(context).size.width * 0.8,
-          child: const HomePage(),
+          child:  homepage(),
         ),
       ),
       resizeToAvoidBottomInset: true,

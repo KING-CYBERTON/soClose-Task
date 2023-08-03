@@ -30,7 +30,9 @@ class _BrandsState extends State<Brands> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return
+    
+     ListView(
       scrollDirection: Axis.horizontal,
       children: [
         Stack(
