@@ -67,6 +67,12 @@ class _LoginInPageState extends State<LoginInPage> {
                   textInputType: TextInputType.emailAddress,
                   isPass: false,
                   textController: emailController,
+                  validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter Contact Phone Number';
+                                }
+                                return null;
+                              }, 
                 ),
                 const SizedBox(height: 20),
                 // ignore: prefer_const_constructors
@@ -75,6 +81,12 @@ class _LoginInPageState extends State<LoginInPage> {
                   textInputType: TextInputType.emailAddress,
                   isPass: true,
                   textController: passwordController,
+                  validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter Contact Phone Number';
+                                }
+                                return null;
+                              }, 
                 ),
                 const SizedBox(height: 20),
 

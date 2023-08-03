@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:oxy_boot/View/home_page.dart';
-
+import 'package:flutter/material.dart';
+import 'package:oxy_boot/Styles/color.dart';
+import 'package:oxy_boot/View/home_page.dart';
+import 'package:flutter_bounce/flutter_bounce.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:oxy_boot/responsive/response.dart';
+import 'package:oxy_boot/responsive/webview.dart';
+import '../Styles/font_styles.dart';
 import '../Styles/color.dart';
 import '../View/Menu/card_screen.dart';
 
@@ -18,6 +25,82 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.lightBlueAccent[200],
+        titleSpacing: 0.0,
+        centerTitle: true,
+        toolbarHeight: 60.2,
+        toolbarOpacity: 0.8,
+       shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(25),
+            bottomLeft: Radius.circular(25),
+          ),
+        ),
+        title:
+         Image.asset(
+                      "assets/images/Glogobig.png",
+                     
+                    ),
+        
+        leading: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 5,
+              ),
+              Bounce(
+                  onPressed: () => ZoomDrawer.of(context)!.toggle(),
+                  duration: const Duration(milliseconds: 500),
+                  child: Image.asset(
+                    "assets/icons/menu_ic.png",
+                    width: 44,
+                    height: 44,
+                  ),
+                ),
+              
+             
+            ]),
+            actions: [
+            
+              
+            
+            SizedBox(width: 20,),
+             Center(
+               child: Bounce(
+                onPressed: () {},
+                duration: const Duration(milliseconds: 500),
+                child: Stack(
+                  children: [
+                    Image.asset(
+                      "assets/icons/cart_ic.png",
+                      width: 44.0,
+                      height: 44.0,
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 5,
+                      child: Container(
+                        width: 10.0,
+                        height: 10.0,
+                        decoration: BoxDecoration(
+                          color: Colors.deepOrange,
+                          borderRadius: BorderRadius.circular(100.0),
+                          
+                        ),
+                        
+                      ),
+                    ),
+                  ],
+                ),),
+             ),
+               SizedBox(
+                width: 5,
+              ),
+            ]
+      ),
+
       
       body: Center(
         child: Container(
@@ -51,7 +134,7 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const HomePage(),
+                        builder: (context) => const ResponsiveLayout(mobileScreenLayout: mobilescreenlayout(), webScreenLayout: weblcreenlayout()),
                       ),
                     );
                   },

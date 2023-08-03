@@ -138,7 +138,7 @@ class AboutUsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.lightBlue
+      backgroundColor: bgWhite
           .withOpacity(0.5), // Set the background color with transparency
       content: Container(
         // Add your content here
@@ -174,7 +174,7 @@ class AboutUsDialog extends StatelessWidget {
             const SizedBox(height: 10),
             Container(
               decoration: BoxDecoration(
-                color: Colors.black12,
+                color: bgWhite,
                 boxShadow: const [
                   BoxShadow(
                     blurRadius: 10,
@@ -196,6 +196,8 @@ class AboutUsDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButton(
                         onPressed: () {},
@@ -216,6 +218,8 @@ class AboutUsDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: 10),
                       IconButton(

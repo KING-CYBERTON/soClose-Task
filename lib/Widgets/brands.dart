@@ -17,7 +17,7 @@ import '../View/CAtegoryPages/jackect.dart';
 
 class Brands extends StatefulWidget {
   int currentIndex = 0;
-  Brands({Key? key, required this .currentIndex} ) : super(key: key);
+  Brands({Key? key, required this.currentIndex}) : super(key: key);
 
   @override
   State<Brands> createState() => _BrandsState();
@@ -27,7 +27,6 @@ class _BrandsState extends State<Brands> {
   final ProductController productController = ProductController();
   int currentIndex = 0;
   
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +57,8 @@ class _BrandsState extends State<Brands> {
               padding: const EdgeInsets.all(5.0),
               child: Bounce(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>   ShoePagee()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ShoePagee()));
                   currentIndex = 0;
                   setState(() {});
                 },
@@ -146,11 +143,12 @@ class _BrandsState extends State<Brands> {
               padding: const EdgeInsets.all(5.0),
               child: Bounce(
                 onPressed: () {
-                   Navigator.push(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const TrouserPagee(),
-                    ),);
+                    ),
+                  );
                   currentIndex = 2;
                   setState(() {});
                 },
@@ -190,11 +188,12 @@ class _BrandsState extends State<Brands> {
               padding: const EdgeInsets.all(5.0),
               child: Bounce(
                 onPressed: () {
-                   Navigator.push(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const JacketsPagee(),
-                    ),);
+                    ),
+                  );
                   currentIndex = 3;
                   setState(() {});
                 },
@@ -234,11 +233,12 @@ class _BrandsState extends State<Brands> {
               padding: const EdgeInsets.all(5.0),
               child: Bounce(
                 onPressed: () {
-                   Navigator.push(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  Accesories(),
-                    ),);
+                      builder: (context) => Accesories(),
+                    ),
+                  );
                   currentIndex = 4;
                   setState(() {});
                 },
@@ -275,11 +275,12 @@ class _BrandsState extends State<Brands> {
               padding: const EdgeInsets.all(5.0),
               child: Bounce(
                 onPressed: () {
-                   Navigator.push(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const ComboPagee(),
-                    ),);
+                    ),
+                  );
                   currentIndex = 5;
                   setState(() {});
                 },

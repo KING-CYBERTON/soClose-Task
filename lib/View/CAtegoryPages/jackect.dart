@@ -31,7 +31,7 @@ class _JacketsPageeState extends State<JacketsPagee> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
+  
     // Determine the number of grids based on screen width
     if (screenWidth >= 600) {
       _crossAxisCount = 4;

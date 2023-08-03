@@ -114,12 +114,9 @@ class _weblcreenlayoutState extends State<weblcreenlayout> {
                SizedBox(
                 width: 5,
               ),
-            ]),
-            
-
-
-            ],
+            ]),]
       ),
+
       body: Center(
         child: Container(
           color: bgWhite,
