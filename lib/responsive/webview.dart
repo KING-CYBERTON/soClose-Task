@@ -118,13 +118,36 @@ class _weblcreenlayoutState extends State<weblcreenlayout> {
             ]),]
       ),
 
-      body: Center(
-        child: Container(
-          color: bgWhite,
-          height: double.infinity,
-          width: MediaQuery.of(context).size.width * 0.8,
-          child:  homepage(),
-        ),
+      body: Stack(
+        children: [
+
+          Center(
+            child: Container(
+              color: bgWhite,
+              height: double.infinity,
+              width: MediaQuery.of(context).size.width * 0.8,
+              child:  homepage(),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Stack(
+                children: [
+                  FloatingActionButton(onPressed: (){},
+                  child: Container(
+                    decoration: BoxDecoration(
+               
+                      shape: BoxShape.circle
+                    ),
+                    child: Image.asset('assets/images/whatsapp.png',
+                    fit: BoxFit.fill,)),)
+                ],
+              ),
+            ),
+          )
+        ],
       ),
       resizeToAvoidBottomInset: true,
     );
