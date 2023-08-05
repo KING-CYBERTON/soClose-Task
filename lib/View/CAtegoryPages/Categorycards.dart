@@ -31,8 +31,8 @@ class ProductList extends StatelessWidget {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount:
                     screenWidth, // Change the cross-axis count as needed
-                mainAxisSpacing: 10.0,
-                crossAxisSpacing: 10.0,
+                mainAxisSpacing: 4.0,
+                crossAxisSpacing: 4.0,
                 childAspectRatio: 0.8,
               ),
               itemBuilder: (context, index) {
@@ -141,7 +141,7 @@ class ProductCard2 extends StatelessWidget {
     final ProductController productController = Get.find();
 
     return Padding(
-      padding: const EdgeInsets.only(right: 15),
+      padding: const EdgeInsets.only(right: 5),
       child: Bounce(
         onPressed: () {
           showDialog(

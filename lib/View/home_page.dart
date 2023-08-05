@@ -8,6 +8,7 @@ import 'package:oxy_boot/View/CAtegoryPages/Categorycards.dart';
 import 'package:oxy_boot/View/CAtegoryPages/newarrivals.dart';
 import 'package:oxy_boot/View/Menu/card_screen.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../Controller/productController.dart';
 import '../DataModel/Product.dart';
@@ -135,6 +136,14 @@ class _HomePageState extends State<HomePage> {
 }
 
 class AboutUsDialog extends StatelessWidget {
+  Future<void> _launchURL(Uri url) async {
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -196,8 +205,8 @@ class AboutUsDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Row(
-                     mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButton(
                         onPressed: () {},
@@ -218,15 +227,16 @@ class AboutUsDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Row(
-                     mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: 10),
                       IconButton(
                         onPressed: () {
-                          String url =
-                              'https://l.wl.co/l?u=https%3A%2F%2Fwww.instagram.com%2Finvites%2Fcontact%2F%3Fi%3D10wbpe8vipebk%26utm_content%3Dox84ym';
+                          Uri url = Uri.parse(
+                              'https://l.wl.co/l?u=https%3A%2F%2Fwww.instagram.com%2Finvites%2Fcontact%2F%3Fi%3D10wbpe8vipebk%26utm_content%3Dox84ym');
                           url;
+                          launchUrl(url);
                         },
                         icon: Image.asset(
                           'assets/images/instagram.png', // Replace with the path to your Facebook logo
@@ -237,8 +247,10 @@ class AboutUsDialog extends StatelessWidget {
                       const SizedBox(height: 10),
                       IconButton(
                         onPressed: () {
-                          String loc = 'https://goo.gl/maps/pB7JXAAoxV37yKm28';
+                          Uri loc = Uri.parse(
+                              'https://goo.gl/maps/pB7JXAAoxV37yKm28');
                           loc;
+                          launchUrl(loc);
                         },
                         icon: Image.asset(
                           'assets/images/google-maps.png', // Replace with the path to your Facebook logo
@@ -249,8 +261,9 @@ class AboutUsDialog extends StatelessWidget {
                       const SizedBox(height: 10),
                       IconButton(
                         onPressed: () {
-                          String wa = 'https://wa.me/+254713773296';
+                          Uri wa = Uri.parse('https://wa.me/+254713773296');
                           wa;
+                          launchUrl(wa);
                         },
                         icon: Image.asset(
                           'assets/images/whatsapp.png', // Replace with the path to your Facebook logo

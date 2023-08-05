@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oxy_boot/Controller/CartController.dart';
 import 'package:oxy_boot/View/CAtegoryPages/newarrivals.dart';
 import 'package:oxy_boot/View/home_page.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +28,8 @@ class mobilescreenlayout extends StatefulWidget {
 
 // ignore: camel_case_types
 class _mobilescreenlayoutState extends State<mobilescreenlayout> {
+  final cartController = Get.put(CartController());
+  bool gridview = true;
   int navigationIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -41,8 +46,15 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
               bottomLeft: Radius.circular(25),
             ),
           ),
-          title: Image.asset(
-            "assets/images/Glogobig.png",
+          title: IconButton(
+            color: Colors.white,
+            icon:
+                gridview ? const Icon(Icons.list) : const Icon(Icons.grid_view),
+            onPressed: () {
+              setState(() {
+                gridview = !gridview;
+              });
+            },
           ),
           leading: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -52,43 +64,51 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
                   width: 5,
                 ),
                 Bounce(
-                  onPressed: () => ZoomDrawer.of(context)!.toggle(),
+                  onPressed: () => MaterialPageRoute(
+                    builder: (context) => const ResponsiveLayout(
+                        mobileScreenLayout: mobilescreenlayout(),
+                        webScreenLayout: weblcreenlayout()),
+                  ),
                   duration: const Duration(milliseconds: 500),
                   child: Image.asset(
-                    "assets/icons/menu_ic.png",
+                    "assets/images/goodtimes.png",
                     width: 44,
                     height: 44,
                   ),
                 ),
               ]),
           actions: [
-            SizedBox(
-              width: 20,
-            ),
-            Center(
-              child: Bounce(
-                onPressed: () {},
-                duration: const Duration(milliseconds: 500),
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      "assets/icons/cart_ic.png",
-                      width: 44.0,
-                      height: 44.0,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: TextFormField(
+                  cursorColor: customBlue,
+                  cursorWidth: 2.5,
+                  style: textStyle1,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    contentPadding: EdgeInsets.zero,
+                    hintText: "Search Product,Cartegory",
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Image.asset("assets/icons/search_ic.png"),
                     ),
-                    Positioned(
-                      right: 0,
-                      top: 5,
-                      child: Container(
-                        width: 10.0,
-                        height: 10.0,
-                        decoration: BoxDecoration(
-                          color: Colors.deepOrange,
-                          borderRadius: BorderRadius.circular(100.0),
-                        ),
+                    hintStyle: textStyle1,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.white,
                       ),
+                      borderRadius: BorderRadius.circular(100.0),
                     ),
-                  ],
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.circular(100.0),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -101,7 +121,10 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
           color: bgWhite,
           height: double.infinity,
           width: double.infinity,
-          child: homepage(),
+          child: homepage(
+            gridview: gridview,
+            wsize: MediaQuery.of(context).size.width * 0.8,
+          ),
         ),
       ),
       bottomNavigationBar: Container(
@@ -194,18 +217,45 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
 }
 
 class homepage extends StatefulWidget {
+  final bool gridview;
+  final double wsize;
+  const homepage({super.key, required this.gridview, required this.wsize});
   @override
   _homepageState createState() => _homepageState();
 }
 
-class _homepageState extends State<homepage> {
+class _homepageState extends State<homepage>
+    with SingleTickerProviderStateMixin {
   final productController = Get.put(ProductController());
   int _crossAxisCount = 2; // Initial number of grids
-  bool _isGridView = true;
+
 // Current view mode
-  int _currentNumber = 2;
+  int _currentNumber = 0;
   final List<String> letters = ['A', 'B', 'C', 'D', 'E', 'F'];
 
+  late AnimationController _animationController;
+  double _startPositionX = 0.0;
+  double _endPositionX = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration.zero, () {
+      _updateNumber(0); // Update _currentNumber after the widget is built
+    });
+    _endPositionX = widget.wsize;
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 6),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   void _updateNumber(int number) {
     setState(() {
@@ -215,6 +265,7 @@ class _homepageState extends State<homepage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isGridView = widget.gridview;
     final screenWidth = MediaQuery.of(context).size.width;
 
     // Determine the number of grids based on screen width
@@ -225,79 +276,121 @@ class _homepageState extends State<homepage> {
     } else {
       _crossAxisCount = 2;
     }
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: SizedBox(
-            width: double.infinity,
-            height: 48.0,
-            child: TextFormField(
-              cursorColor: customBlue,
-              cursorWidth: 2.5,
-              style: textStyle1,
-              decoration: InputDecoration(
-                fillColor: Colors.white,
-                filled: true,
-                contentPadding: EdgeInsets.zero,
-                hintText: "Search Product,Cartegory",
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Image.asset("assets/icons/search_ic.png"),
-                ),
-                hintStyle: textStyle1,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.white,
-                  ),
-                  borderRadius: BorderRadius.circular(100.0),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.white,
-                  ),
-                  borderRadius: BorderRadius.circular(100.0),
-                ),
+
+    if (_currentNumber == 0) {
+      return Column(
+        children: [
+          SizedBox(height: 16),
+          Container(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  buildNumberIcon('Shoes', "sport-shoe", 1),
+                  buildNumberIcon('Tshirt', "tshirt", 2),
+                  buildNumberIcon('Trousers', "trouser", 3),
+                  buildNumberIcon('Jackets', "jacket", 4),
+                  buildNumberIcon('accessories', "belt", 5),
+                  buildNumberIcon('combo outfit', "outfit", 6)
+                ],
               ),
             ),
           ),
-        ),
-        Container(
-          height: 100,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+          SizedBox(height: 16),
+          Row(
+            children: [
+              Container(
+                height: 40.0,
+                width: _endPositionX,
+                child: AnimatedBuilder(
+                  animation: _animationController,
+                  builder: (context, child) {
+                    double currentPositionX = Tween<double>(
+                      begin: _startPositionX,
+                      end: _endPositionX,
+                    )
+                        .animate(
+                          CurvedAnimation(
+                            parent: _animationController,
+                            curve: Curves.easeInOut,
+                          ),
+                        )
+                        .value;
+
+                    return Stack(
+                      children: [
+                        Positioned(
+                          left: currentPositionX,
+                          top: 0.0,
+                          child: Text(
+                            'New Arrival!!!',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red[700],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+
+          ProductList(
+            productList: productController.products,
+            isGridView: isGridView,
+            screenWidth: _crossAxisCount,
+          ),
+
+          // Add similar conditions for other categories/lists if needed
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          SizedBox(height: 16),
+          Container(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  buildNumberIcon('Shoes', "sport-shoe", 1),
+                  buildNumberIcon('Tshirt', "tshirt", 2),
+                  buildNumberIcon('Trousers', "trouser", 3),
+                  buildNumberIcon('Jackets', "jacket", 4),
+                  buildNumberIcon('accessories', "belt", 5),
+                  buildNumberIcon('combo outfit', "outfit", 6)
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          Expanded(
+            child: Column(
               children: [
-                buildNumberIcon('Shoes', "sport-shoe", 1),
-                buildNumberIcon('Tshirt', "tshirt", 2),
-                buildNumberIcon('Trousers', "trouser", 3),
-                buildNumberIcon('Jackets', "jacket", 4),
-                buildNumberIcon('accessories', "belt", 5),
-                buildNumberIcon('combo outfit', "outfit", 6)
+                if (_currentNumber == 0) ...NewArrivals(),
+                if (_currentNumber == 1) ...shoesList(),
+                if (_currentNumber == 2) ...tshirtList(),
+                if (_currentNumber == 3) ...trouserlist(),
+                if (_currentNumber == 4) ...JacketList(),
+                if (_currentNumber == 5) ...accesorieList(),
+                if (_currentNumber == 6) ...combolist(),
+
+                // Add similar conditions for other categories/lists if needed
               ],
             ),
           ),
-        ),
-        SizedBox(height: 16),
-        Expanded(
-          child: Column(
-            children: [
-              if (_currentNumber == 0) ...NewArrivals(),
-              if (_currentNumber == 1) ...shoesList(),
-              if (_currentNumber == 2) ...tshirtList(),
-              if (_currentNumber == 3) ...trouserlist(),
-              if (_currentNumber == 4) ...JacketList(),
-              if (_currentNumber == 5) ...accesorieList(),
-              if (_currentNumber == 6) ...combolist(),
-
-              // Add similar conditions for other categories/lists if needed
-            ],
-          ),
-        ),
-      ],
-    );
+        ],
+      );
+    }
   }
 
   Widget buildNumberIcon(String lable, String iconName, int number) {
@@ -338,8 +431,8 @@ class _homepageState extends State<homepage> {
       ProductList(
         productList: productController.shoes,
         isGridView:
-            _isGridView, // Set to true for grid view, false for list view
-        screenWidth: 2, // You can adjust this as needed
+            widget.gridview, // Set to true for grid view, false for list view
+        screenWidth: _crossAxisCount, // You can adjust this as needed
       ),
     ];
   }
@@ -349,7 +442,7 @@ class _homepageState extends State<homepage> {
       ProductList(
         productList: productController.tshirts,
         isGridView:
-            _isGridView, // Set to true for grid view, false for list view
+            widget.gridview, // Set to true for grid view, false for list view
         screenWidth: _crossAxisCount, // You can adjust this as needed
       ),
     ];
@@ -360,7 +453,7 @@ class _homepageState extends State<homepage> {
       ProductList(
         productList: productController.jackets,
         isGridView:
-            _isGridView, // Set to true for grid view, false for list view
+            widget.gridview, // Set to true for grid view, false for list view
         screenWidth: _crossAxisCount, // You can adjust this as needed
       ),
     ];
@@ -371,7 +464,7 @@ class _homepageState extends State<homepage> {
       ProductList(
         productList: productController.accesories,
         isGridView:
-            _isGridView, // Set to true for grid view, false for list view
+            widget.gridview, // Set to true for grid view, false for list view
         screenWidth: _crossAxisCount, // You can adjust this as needed
       ),
     ];
@@ -382,7 +475,7 @@ class _homepageState extends State<homepage> {
       ProductList(
         productList: productController.products,
         isGridView:
-            _isGridView, // Set to true for grid view, false for list view
+            widget.gridview, // Set to true for grid view, false for list view
         screenWidth: _crossAxisCount, // You can adjust this as needed
       ),
     ];
@@ -393,7 +486,7 @@ class _homepageState extends State<homepage> {
       ProductList(
         productList: productController.combo,
         isGridView:
-            _isGridView, // Set to true for grid view, false for list view
+            widget.gridview, // Set to true for grid view, false for list view
         screenWidth: _crossAxisCount, // You can adjust this as needed
       ),
     ];
@@ -404,7 +497,7 @@ class _homepageState extends State<homepage> {
       ProductList(
         productList: productController.trousers,
         isGridView:
-            _isGridView, // Set to true for grid view, false for list view
+            widget.gridview, // Set to true for grid view, false for list view
         screenWidth: _crossAxisCount, // You can adjust this as needed
       ),
     ];

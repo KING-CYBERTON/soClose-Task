@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:oxy_boot/Styles/color.dart';
 import 'package:oxy_boot/Widgets/main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,29 +25,37 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Image.asset(
-            "assets/images/splash_bg.jpg",
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: Center(
-              child: Text(
-                "Good Times \n     Fashion",
-                style: TextStyle(
-                    color: Color.fromARGB(255, 245, 245, 10),
-                    fontFamily: "airbnb",
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold),
+      body: Center(
+        child: Container(
+          height:200 ,
+          child: Column(
+            children: [
+             
+              Center(
+                child: Image.asset(
+                  "assets/images/goodtimes.png",
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.contain,
+                ),
               ),
-            ),
-          )
-        ],
+              const SizedBox(
+               width: double.infinity,
+                  height: 100,
+                child: Center(
+                  child: Text(
+                    "Good Times \n      Trends",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: "airbnb",
+                        fontSize: 28.0,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

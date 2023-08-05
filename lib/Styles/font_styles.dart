@@ -3,7 +3,7 @@ import 'package:oxy_boot/Styles/color.dart';
 
 TextStyle textStyle1 = TextStyle(
     color: customGrey,
-    fontSize: 12.0,
+    fontSize: 10.0,
     fontWeight: FontWeight.w600,
     fontFamily: "airbnb");
 

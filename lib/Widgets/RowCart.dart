@@ -330,9 +330,14 @@ class _CartTotalState extends State<CartTotal> {
                                   mpesaname: MpesaNameController.text,
                                   mpesnumber: MpesaCodeController.text,
                                   mpesacode: MpesaNumberController.text,
-                                  orderlist: controller.products.entries
-                                      .map((entry) => entry.key)
-                                      .toList(),
+                                  orderlist:
+                                      controller.products.entries.map((entry) {
+                                    final product = entry.key;
+                                    final quantity = entry.value;
+                                    final productJson = product.toJson();
+                                    productJson['quantity'] = quantity;
+                                    return productJson;
+                                  }).toList(),
                                 );
 
                                 controller
@@ -372,7 +377,7 @@ void _confirmationDialog(String contactName) {
   final thankYouNote = ThankYouNotes.getRandomThankYouNote();
 
   Get.defaultDialog(
-    title: 'We appreciate',
+    title: '$contactName, we appreciate',
     actions: [
       ElevatedButton(
         style: ButtonStyle(
@@ -394,7 +399,9 @@ void _confirmationDialog(String contactName) {
     content: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Center(child: Image.asset('assets/images/G(1).PNG')),
+        Center(child: Image.asset('assets/images/goodtimes.png',
+         width: 100,
+                  height: 100,)),
         Text(
           thankYouNote,
           style: const TextStyle(
@@ -403,15 +410,7 @@ void _confirmationDialog(String contactName) {
             fontSize: 15,
           ),
         ),
-        Text(
-          "$contactName.",
-          style: const TextStyle(
-            color: Colors.white,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-          ),
-        ),
+        
       ],
     ),
   );

@@ -76,18 +76,18 @@ class CartController extends GetxController {
       snackPosition: SnackPosition.BOTTOM,
     );
   }
-  
-   Future<void> postOrderToFirestore(Orders order) async {
+
+  Future<void> postOrderToFirestore(Orders order) async {
     try {
       // Convert the Orders object to a JSON representation
       final orderJson = {
         'contactname': order.contactname,
         'contactphone': order.contactphone,
-        'Billedtotal':order.total,
+        'Billedtotal': order.total,
         'mpesaname': order.mpesaname,
         'mpesnumber': order.mpesnumber,
         'mpesacode': order.mpesacode,
-        'orderlist': order.orderlist.map((product) => product.toJson()).toList(),
+        'orderlist': order.orderlist
       };
 
       // Save the order data to Firestore under the 'orders' collection
@@ -118,4 +118,3 @@ class CartController extends GetxController {
     }
   }
 }
-

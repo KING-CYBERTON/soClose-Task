@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oxy_boot/Styles/color.dart';
 
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../Controller/CartController.dart';
+import '../View/Menu/card_screen.dart';
 import 'package:oxy_boot/responsive/mobile.dart';
 
 import '../Styles/font_styles.dart';
+import 'response.dart';
 
 // ignore: camel_case_types
 class weblcreenlayout extends StatefulWidget {
@@ -14,9 +19,16 @@ class weblcreenlayout extends StatefulWidget {
   @override
   State<weblcreenlayout> createState() => _weblcreenlayoutState();
 }
-
+Future<void> _launchURL(Uri url) async {
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 // ignore: camel_case_types
 class _weblcreenlayoutState extends State<weblcreenlayout> {
+  final cartController = Get.put(CartController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,11 +44,7 @@ class _weblcreenlayoutState extends State<weblcreenlayout> {
             bottomLeft: Radius.circular(25),
           ),
         ),
-        title:
-         Image.asset(
-                      "assets/images/Glogobig.png",
-                     
-                    ),
+       
         
         leading: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -46,10 +54,14 @@ class _weblcreenlayoutState extends State<weblcreenlayout> {
                 width: 5,
               ),
               Bounce(
-                  onPressed: () => ZoomDrawer.of(context)!.toggle(),
+                  onPressed: () =>  MaterialPageRoute(
+                        builder: (context) => const ResponsiveLayout(
+                            mobileScreenLayout: mobilescreenlayout(),
+                            webScreenLayout: weblcreenlayout()),
+                      ),
                   duration: const Duration(milliseconds: 500),
                   child: Image.asset(
-                    "assets/icons/menu_ic.png",
+                    "assets/images/goodtimes.png",
                     width: 44,
                     height: 44,
                   ),
@@ -87,9 +99,49 @@ class _weblcreenlayoutState extends State<weblcreenlayout> {
               ],
               
             ),
+             Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SizedBox(
+            width:  MediaQuery.of(context).size.width*0.2,
+            child: TextFormField(
+              cursorColor: customBlue,
+              cursorWidth: 2.5,
+              style: textStyle1,
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
+                contentPadding: EdgeInsets.zero,
+                hintText: "Search Product,Cartegory",
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Image.asset("assets/icons/search_ic.png"),
+                ),
+                hintStyle: textStyle1,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Colors.white,
+                  ),
+                  borderRadius: BorderRadius.circular(100.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Colors.white,
+                  ),
+                  borderRadius: BorderRadius.circular(100.0),
+                ),
+              ),
+            ),
+          ),
+        ),
             SizedBox(width: 20,),
              Bounce(
-              onPressed: () {},
+              onPressed: () {
+              
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CartScreen()),
+              );
+              },
               duration: const Duration(milliseconds: 500),
               child: Stack(
                 children: [
@@ -126,7 +178,7 @@ class _weblcreenlayoutState extends State<weblcreenlayout> {
               color: bgWhite,
               height: double.infinity,
               width: MediaQuery.of(context).size.width * 0.8,
-              child:  homepage(),
+              child:   homepage(gridview: true,wsize: MediaQuery.of(context ).size.width * 0.8,),
             ),
           ),
           Padding(
@@ -135,7 +187,12 @@ class _weblcreenlayoutState extends State<weblcreenlayout> {
               alignment: Alignment.bottomRight,
               child: Stack(
                 children: [
-                  FloatingActionButton(onPressed: (){},
+                  FloatingActionButton(onPressed: (){
+                    Uri wa = Uri.parse('https://wa.me/+254713773296');
+                          wa;
+                          launchUrl(wa);
+
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                
