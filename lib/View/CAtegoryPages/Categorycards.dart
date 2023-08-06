@@ -259,10 +259,7 @@ class ImageViewDialog extends StatelessWidget {
               minScale: PhotoViewComputedScale.contained * 0.8,
               maxScale: PhotoViewComputedScale.covered * 2,
             ),
-            Text(
-              product.PName,
-              style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-            ),
+          
             Center(
               child: Text('@GoodTimes_Trends\n ${product.PName}',
                   style: TextStyle(
