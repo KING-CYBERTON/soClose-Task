@@ -138,7 +138,7 @@ class _CartTotalState extends State<CartTotal> {
                                               fontSize: 12,
                                             ),
                                           ),
-                                          Image.asset('assets/images/mpesa.PNG'),
+                                          Image.asset('assets/images/mpesa.png'),
                                           Radio(
                                             value: "Cash",
                                             groupValue:
@@ -165,7 +165,7 @@ class _CartTotalState extends State<CartTotal> {
                                          SizedBox(
                 height: 40,
                 width: 200,
-                child: Image.asset('assets/images/mpesagoodtimes.PNG',
+                child: Image.asset('assets/images/mpesagoodtimes.png',
                 fit: BoxFit.fitWidth,),
               ),
                                     SizedBox(

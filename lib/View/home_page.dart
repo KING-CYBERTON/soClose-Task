@@ -179,6 +179,12 @@ class AboutUsDialog extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
+                                           SizedBox(
+                height: 40,
+                width: 200,
+                child: Image.asset('assets/images/mpesagoodtimes.png',
+                fit: BoxFit.fitWidth,),
+              ),
 
             const SizedBox(height: 10),
             Container(
