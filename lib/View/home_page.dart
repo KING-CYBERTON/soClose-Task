@@ -84,9 +84,9 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     width: double.infinity,
                     height: 50.0,
-                    child: Brands(
-                      currentIndex: navigationIndex,
-                    ),
+                    // child: Brands(
+                    //   currentIndex: navigationIndex,
+                    // ),
                   ),
                   const SizedBox(
                     height: 10.0,
@@ -100,12 +100,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NewArrivals(),
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const NewArrivals(),
+                          //   ),
+                          // );
                         },
                         child: Text(
                           "See all",

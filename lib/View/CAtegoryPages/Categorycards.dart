@@ -11,6 +11,7 @@ import 'package:flutter_bounce/flutter_bounce.dart';
 import '../product_view.dart';
 
 class ProductList extends StatelessWidget {
+  final String name;
   final List<Product> productList;
   final bool isGridView;
   final int screenWidth;
@@ -20,6 +21,7 @@ class ProductList extends StatelessWidget {
     required this.isGridView,
     Key? key,
     required this.screenWidth,
+    required this.name,
   }) : super(key: key);
 
   @override
@@ -36,18 +38,36 @@ class ProductList extends StatelessWidget {
                 childAspectRatio: 0.8,
               ),
               itemBuilder: (context, index) {
-                return ProductCard2(
+                 final product = productList[index];
+                  if (name.isEmpty) {
+                   return ProductCard2(
                   productList: productList[index],
                 );
+                } else if (product.PName.startsWith(name.toLowerCase())) {
+                return ProductCard2(
+                  productList: product,
+                );
+                } else {
+                  Container();
+                }
+               
               },
             )
           : ListView.builder(
               itemCount: productList.length,
               itemBuilder: (BuildContext context, int index) {
                 final product = productList[index];
-                return ProductCard(
-                  product: product,
-                );
+                if (name.isEmpty) {
+                  return ProductCard(
+                    product: product,
+                  );
+                } else if (product.PName.startsWith(name.toLowerCase())) {
+                  return ProductCard(
+                    product: product,
+                  );
+                } else {
+                  Container();
+                }
               },
             ),
     );
@@ -97,13 +117,10 @@ class ProductCard extends StatelessWidget {
                         product.price.toString(),
                         style: textStyle4,
                       ),
-                      
                     ],
                   ),
                 ),
               ),
-             
-
               Expanded(
                 child: GestureDetector(
                   onTap: () {
@@ -249,7 +266,7 @@ class ImageViewDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width ,
+      width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.4,
       child: Dialog(
         child: Stack(
@@ -259,7 +276,6 @@ class ImageViewDialog extends StatelessWidget {
               minScale: PhotoViewComputedScale.contained * 0.8,
               maxScale: PhotoViewComputedScale.covered * 2,
             ),
-          
             Center(
               child: Text('@GoodTimes_Trends\n ${product.PName}',
                   style: TextStyle(

@@ -138,7 +138,7 @@ class _CartTotalState extends State<CartTotal> {
                                               fontSize: 12,
                                             ),
                                           ),
-                                          Image.asset('images/mpesa.PNG'),
+                                          Image.asset('assets/images/mpesa.PNG'),
                                           Radio(
                                             value: "Cash",
                                             groupValue:
@@ -162,6 +162,12 @@ class _CartTotalState extends State<CartTotal> {
                                   // Display M-Pesa specific text fields if the payment method is M-Pesa
                                   if (controller.paymentMethod.value ==
                                       'M-Pesa') ...[
+                                         SizedBox(
+                height: 40,
+                width: 200,
+                child: Image.asset('assets/images/mpesagoodtimes.PNG',
+                fit: BoxFit.fitWidth,),
+              ),
                                     SizedBox(
                                       width: 300,
                                       child: Container(
@@ -209,7 +215,7 @@ class _CartTotalState extends State<CartTotal> {
                                                 CustomText(
                                                   isPass: false,
                                                   hintText:
-                                                      'Mpesapayment Phone Number',
+                                                      'Mpesa payment Phone Number',
                                                   textInputType:
                                                       TextInputType.number,
                                                   textController:
@@ -312,6 +318,7 @@ class _CartTotalState extends State<CartTotal> {
                             ],
                           ),
                         ),
+                        const SizedBox(height: 10),
 
                       ElevatedButton(
                         onPressed: () {

@@ -28,6 +28,7 @@ class mobilescreenlayout extends StatefulWidget {
 
 // ignore: camel_case_types
 class _mobilescreenlayoutState extends State<mobilescreenlayout> {
+  late String name = '';
   final cartController = Get.put(CartController());
   bool gridview = true;
   int navigationIndex = 0;
@@ -83,6 +84,11 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: TextFormField(
+                  onChanged: (value) {
+                    setState(() {
+                      name = value;
+                    });
+                  },
                   cursorColor: customBlue,
                   cursorWidth: 2.5,
                   style: textStyle1,
@@ -124,6 +130,7 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
           child: homepage(
             gridview: gridview,
             wsize: MediaQuery.of(context).size.width * 0.8,
+            name: name,
           ),
         ),
       ),
@@ -219,7 +226,12 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
 class homepage extends StatefulWidget {
   final bool gridview;
   final double wsize;
-  const homepage({super.key, required this.gridview, required this.wsize});
+  final String name;
+  const homepage(
+      {super.key,
+      required this.gridview,
+      required this.wsize,
+      required this.name});
   @override
   _homepageState createState() => _homepageState();
 }
@@ -345,7 +357,7 @@ class _homepageState extends State<homepage>
           ProductList(
             productList: productController.products,
             isGridView: isGridView,
-            screenWidth: _crossAxisCount,
+            screenWidth: _crossAxisCount, name: widget.name,
           ),
 
           // Add similar conditions for other categories/lists if needed
@@ -432,7 +444,7 @@ class _homepageState extends State<homepage>
         productList: productController.shoes,
         isGridView:
             widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, // You can adjust this as needed
+        screenWidth: _crossAxisCount, name: widget.name, // You can adjust this as needed
       ),
     ];
   }
@@ -443,7 +455,7 @@ class _homepageState extends State<homepage>
         productList: productController.tshirts,
         isGridView:
             widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, // You can adjust this as needed
+        screenWidth: _crossAxisCount, name: widget.name, // You can adjust this as needed
       ),
     ];
   }
@@ -454,7 +466,7 @@ class _homepageState extends State<homepage>
         productList: productController.jackets,
         isGridView:
             widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, // You can adjust this as needed
+        screenWidth: _crossAxisCount,name: widget.name, // You can adjust this as needed
       ),
     ];
   }
@@ -465,7 +477,7 @@ class _homepageState extends State<homepage>
         productList: productController.accesories,
         isGridView:
             widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, // You can adjust this as needed
+        screenWidth: _crossAxisCount, name: widget.name, // You can adjust this as needed
       ),
     ];
   }
@@ -476,7 +488,7 @@ class _homepageState extends State<homepage>
         productList: productController.products,
         isGridView:
             widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, // You can adjust this as needed
+        screenWidth: _crossAxisCount, name: widget.name, // You can adjust this as needed
       ),
     ];
   }
@@ -487,7 +499,7 @@ class _homepageState extends State<homepage>
         productList: productController.combo,
         isGridView:
             widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, // You can adjust this as needed
+        screenWidth: _crossAxisCount, name: widget.name, // You can adjust this as needed
       ),
     ];
   }
@@ -498,7 +510,7 @@ class _homepageState extends State<homepage>
         productList: productController.trousers,
         isGridView:
             widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, // You can adjust this as needed
+        screenWidth: _crossAxisCount, name: widget.name, // You can adjust this as needed
       ),
     ];
   }

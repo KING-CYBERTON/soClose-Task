@@ -16,10 +16,12 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+     const int webScreenSize =700;
     return Scaffold(
         backgroundColor: const Color(0xffffffff),
         body: Column(children: [
@@ -60,7 +62,7 @@ class _CartScreenState extends State<CartScreen> {
                     width: 45,
                     height: 45,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.black,
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                   ),
@@ -68,6 +70,7 @@ class _CartScreenState extends State<CartScreen> {
               ],
             ),
           ),
+          
           Expanded(
             child: CartProducts(),
           ),
@@ -126,7 +129,8 @@ Widget  paymentmethod(GlobalKey<FormState> formKey) {
                         fontSize: 12,
                       ),
                     ),
-                    Image.asset('images/mpesa.PNG'),
+                    Image.asset('images/mpesagoodtimes.PNG',
+                fit: BoxFit.contain,),
                     Radio(
                       value: "Cash",
                       groupValue: controller.paymentMethod.value,
@@ -147,6 +151,7 @@ Widget  paymentmethod(GlobalKey<FormState> formKey) {
                 )),
             // Display M-Pesa specific text fields if the payment method is M-Pesa
             if (controller.paymentMethod.value == 'M-Pesa') ...[
+              
               SizedBox(
                 width: 300,
                 child: Container(
@@ -171,7 +176,13 @@ Widget  paymentmethod(GlobalKey<FormState> formKey) {
                       scrollDirection: Axis.vertical,
                       child: Column(
                         children: [
+                          SizedBox(
+                height: 40,
+                child: Image.asset('images/mpesagoodtimes.PNG',
+                fit: BoxFit.contain,),
+              ),
                           const SizedBox(height: 10),
+
                           CustomText(
                             isPass: false,
                             hintText: 'Mpesa Payment Name',

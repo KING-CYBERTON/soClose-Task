@@ -17,7 +17,7 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
 
   @override
   Widget build(BuildContext context) {
-    const int webScreenSize =700;
+    const int webScreenSize = 700;
     return LayoutBuilder(builder: (context, constraints) {
       if (constraints.maxWidth > webScreenSize) {
         // 600 can be changed to 900 if you want to display tablet screen with mobile screen layout
