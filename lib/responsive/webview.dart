@@ -4,6 +4,7 @@ import 'package:oxy_boot/Styles/color.dart';
 
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:oxy_boot/View/CAtegoryPages/Shoes.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Controller/CartController.dart';
 import '../View/Menu/card_screen.dart';
@@ -175,7 +176,7 @@ class _weblcreenlayoutState extends State<weblcreenlayout> {
               color: bgWhite,
               height: double.infinity,
               width: MediaQuery.of(context).size.width * 0.8,
-              child: homepage(
+              child: ShoePagee(
                 gridview: true,
                 wsize: MediaQuery.of(context).size.width * 0.8,
                 name: name,

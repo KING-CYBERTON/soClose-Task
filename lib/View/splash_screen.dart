@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Timer(const Duration(seconds: 4), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(context,
           CupertinoPageRoute(builder: (context) => const MainScreen()));
     });
@@ -27,6 +27,10 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(image: 
+            AssetImage(''))
+          ),
           height:200 ,
           child: Column(
             children: [
