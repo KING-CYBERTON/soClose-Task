@@ -27,10 +27,10 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(image: 
-            AssetImage(''))
-          ),
+          // decoration: BoxDecoration(
+          //   image: DecorationImage(image: 
+          //   AssetImage(''))
+          // ),
           height:200 ,
           child: Column(
             children: [

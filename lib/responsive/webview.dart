@@ -152,15 +152,26 @@ class _weblcreenlayoutState extends State<weblcreenlayout> {
                     Positioned(
                       right: 0,
                       top: 5,
-                      child: Container(
-                        width: 10.0,
-                        height: 10.0,
-                        decoration: BoxDecoration(
-                          color: Colors.deepOrange,
-                          borderRadius: BorderRadius.circular(100.0),
+                  
+                        child: Container(
+                          width: 10.0,
+                          height: 10.0,
+                          decoration: BoxDecoration(
+                            color: Colors.deepOrange,
+                            borderRadius: BorderRadius.circular(100.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              CartController.instance.totalProducts.toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 8.0, // Adjust the font size as needed
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                       
+                    )
                   ],
                 ),
               ),

@@ -50,6 +50,10 @@ class CartController extends GetxController {
       .reduce((value, element) => value + element)
       .toStringAsFixed(2);
 
+      int get totalProducts {
+    return _products.values.reduce((sum, quantity) => sum + quantity);
+  }
+
   void transactionCompleted() async {
     // Save the cart data to Firestore
     final List orderList = _products.entries.map((entry) {
