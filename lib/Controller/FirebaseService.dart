@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:oxy_boot/View/CAtegoryPages/Accesories.dart';
 import '../DataModel/Product.dart';
+import '../DataModel/UserModel.dart';
 
 class FirestoreDB {
   // Initialise Firebase Cloud Firestore
@@ -40,6 +41,11 @@ class FirestoreDB {
     Stream<List<Product>> Accesories() {
     return _firebaseFirestore.collection('accesories').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    });
+}
+Stream<List<UserData>> Users() {
+    return _firebaseFirestore.collection('Users').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => UserData.fromSnapshot(doc)).toList();
     });
 }
 }

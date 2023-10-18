@@ -26,9 +26,9 @@ class _WelcomePageState extends State<WelcomePage> {
           width: 350,
           height: 600,
           decoration: BoxDecoration(
-            image: const DecorationImage(
-                image: AssetImage('assets/own/G.png'),
-                fit: BoxFit.fill),
+            // image: const DecorationImage(
+            //     image: AssetImage('assets/own/G.png'),
+            //     fit: BoxFit.fill),
             boxShadow: [
               BoxShadow(
                 color: Colors.pink.withOpacity(0.5),

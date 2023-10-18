@@ -166,7 +166,7 @@ class AboutUsDialog extends StatelessWidget {
             const SizedBox(height: 10),
             const Text(
               'Goodtimes Trendz',
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 16,color: Colors.blue),
             ),
             const SizedBox(height: 10),
             const Text(

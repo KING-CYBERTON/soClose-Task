@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oxy_boot/Widgets/ProductCard.dart';
+import 'package:oxy_boot/Widgets/item_view.dart';
 import 'package:photo_view/photo_view.dart';
 import '../../Controller/CartController.dart';
+import '../../Controller/FavController.dart';
 import '../../Controller/productController.dart';
 import '../../DataModel/Product.dart';
 import '../../Styles/color.dart';
@@ -38,19 +41,19 @@ class ProductList extends StatelessWidget {
                 childAspectRatio: 0.8,
               ),
               itemBuilder: (context, index) {
-                 final product = productList[index];
-                  if (name.isEmpty) {
-                   return ProductCard2(
-                  productList: productList[index],
-                );
+                final product = productList[index];
+                if (name.isEmpty) {
+                  return ProductCard2(
+                    productList: productList[index],
+                  );
                 } else if (product.PName.startsWith(name.toLowerCase())) {
-                return ProductCard2(
-                  productList: product,
-                );
+                  return ProductCard2(
+                    productList: product,
+                  );
                 } else {
                   Container();
                 }
-               
+                return null;
               },
             )
           : ListView.builder(
@@ -68,6 +71,7 @@ class ProductList extends StatelessWidget {
                 } else {
                   Container();
                 }
+                return null;
               },
             ),
     );
@@ -147,6 +151,118 @@ class ProductCard extends StatelessWidget {
   }
 }
 
+class Productcard3 extends StatelessWidget {
+  final Product productList;
+  const Productcard3({super.key, required this.productList});
+
+  @override
+  Widget build(BuildContext context) {
+    final cartController = Get.put(CartController());
+    final FavAuth Fcontroller = Get.put(FavAuth());
+    final ProductController productController = Get.find();
+    bool fav = true;
+    return Bounce(
+      onPressed: () {
+        Get.to(ProductView(
+          product: productList,
+        ));
+      },
+      duration: const Duration(milliseconds: 300),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 12.0, right: 8),
+        child: Container(
+         
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            color: Colors.white,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 3,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: Image.network(
+                    productList.PImage,
+                    fit: BoxFit.fill,
+                    height: 170,
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            productList.PName,
+                            style: const TextStyle(
+                                // color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          likebutton(
+                            productList: productList,
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: 8.0,
+                        right: 8.0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            productList.price.toString(),
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300),
+                          ),
+                          Bounce(
+                            onPressed: () {
+                              cartController.addProduct(productList);
+                            },
+                            duration: const Duration(milliseconds: 500),
+                            child: Container(
+                              width: 44.0,
+                              height: 44.0,
+                              decoration: BoxDecoration(
+                                color: customBlue,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(20.0),
+                                  bottomRight: Radius.circular(16.0),
+                                ),
+                              ),
+                              child: const Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class ProductCard2 extends StatelessWidget {
   final Product productList;
 
@@ -155,83 +271,61 @@ class ProductCard2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartController = Get.put(CartController());
+    final FavAuth Fcontroller = Get.put(FavAuth());
     final ProductController productController = Get.find();
+    bool fav = true;
 
     return Padding(
       padding: const EdgeInsets.only(right: 5),
       child: Bounce(
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return ImageViewDialog(product: productList);
-            },
-          );
+          Get.to(ProductView(product: productList));
         },
         duration: const Duration(milliseconds: 500),
         child: Container(
-          width: 160.0,
-          height: 160.0,
+          width: 150.0,
+          height: 150.0,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16.0),
           ),
           child: Column(
             children: [
+              
               Expanded(
                 flex: 3,
-                child: Image(
-                  image: NetworkImage(productList.PImage),
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.fill,
-                ),
+                child:
+                      ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child:  Image(
+                      image: NetworkImage(productList.PImage),
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.fill,
+                    ),),
+           
               ),
               Expanded(
                 flex: 1,
                 child: SizedBox(
                   width: double.infinity,
-                  height: double.infinity,
+                  height: 50,
                   child: Stack(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "BEST SELLER",
-                              style: textStyle6,
-                              textAlign: TextAlign.start,
-                            ),
-                            const SizedBox(
-                              height: 2.0,
-                            ),
-                            Text(
-                              productList.PName,
-                              style: textStyle4,
-                            ),
-                            const SizedBox(
-                              height: 2.0,
-                            ),
-                            Text(
-                              productList.price.toString(),
-                              style: textStyle4,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Bounce(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Column(
+                            children: [
+                                likebutton(productList: productList),
+                                Bounce(
                           onPressed: () {
                             cartController.addProduct(productList);
                           },
                           duration: const Duration(milliseconds: 500),
                           child: Container(
-                            width: 44.0,
-                            height: 44.0,
+                            width: 30.0,
+                            height:  26.0,
                             decoration: BoxDecoration(
                               color: customBlue,
                               borderRadius: const BorderRadius.only(
@@ -245,7 +339,32 @@ class ProductCard2 extends StatelessWidget {
                             ),
                           ),
                         ),
+                  
+                            ],
+                          )
+                        
+                        ],
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              productList.PName,
+                              style: textStyle4,
+                            ),
+                            
+                            Text(
+                              productList.price.toString(),
+                              style: textStyle4,
+                            ),
+                          ],
+                        ),
+                      ),
+                    
+                      
                     ],
                   ),
                 ),
@@ -261,13 +380,14 @@ class ProductCard2 extends StatelessWidget {
 class ImageViewDialog extends StatelessWidget {
   final Product product;
 
-  const ImageViewDialog({required this.product});
+  const ImageViewDialog({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.4,
+      color: Colors.transparent,
       child: Dialog(
         child: Stack(
           children: [
@@ -276,16 +396,48 @@ class ImageViewDialog extends StatelessWidget {
               minScale: PhotoViewComputedScale.contained * 0.8,
               maxScale: PhotoViewComputedScale.covered * 2,
             ),
-            Center(
-              child: Text('@GoodTimes_Trends\n ${product.PName}',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontStyle: FontStyle.italic,
-                      color: Colors.lightBlue[700])),
-            )
           ],
         ),
       ),
     );
+  }
+}
+
+class likebutton extends StatefulWidget {
+  final Product productList;
+
+  const likebutton({super.key, required this.productList});
+
+  @override
+  State<likebutton> createState() => _likebuttonState();
+}
+
+class _likebuttonState extends State<likebutton> {
+  final cartController = Get.put(CartController());
+  final FavAuth Fcontroller = Get.put(FavAuth());
+  final ProductController productController = Get.find();
+  bool fav = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => IconButton(
+        onPressed: () {
+          if (Fcontroller.isProductFavorite(widget.productList) == false) {
+            Fcontroller.addProduct(widget.productList);
+            print(Fcontroller.isProductFavorite(widget.productList));
+          } else {
+            Fcontroller.removeProduct(widget.productList);
+            print(Fcontroller.isProductFavorite(widget.productList));
+          }
+        },
+        icon: Icon(
+          Fcontroller.isProductFavorite(widget.productList) == true
+              ? Icons.favorite
+              : Icons.favorite_border,
+          color: Fcontroller.isProductFavorite(widget.productList) == true
+              ? Colors.redAccent
+              : Colors.black,
+          weight: 400,
+        )));
   }
 }

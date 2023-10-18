@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:oxy_boot/View/product_view.dart';
 
+import '../DataModel/Product.dart';
 import '../Styles/color.dart';
 import '../Styles/font_styles.dart';
 import '../Controller/CartController.dart';
@@ -12,9 +13,10 @@ import '../Controller/productController.dart';
 import 'package:get/get.dart';
 
 class ItemView extends StatefulWidget {
+  final Product product;
 
   ItemView({
-    super.key,
+    super.key, required this.product,
   });
 
   @override
@@ -31,8 +33,8 @@ class _ItemViewState extends State<ItemView> {
       padding: const EdgeInsets.only(right: 15),
       child: Bounce(
         onPressed: () {
-          Navigator.push(context,
-              CupertinoPageRoute(builder: (context) => const ProductView()));
+        //   Navigator.push(context,
+        //       CupertinoPageRoute(builder: (context) => const ProductView(product: prod,)));
         },
         duration: const Duration(milliseconds: 500),
         child: Container(

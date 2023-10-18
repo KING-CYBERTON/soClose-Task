@@ -1,13 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:oxy_boot/View/usersignin/welcome.dart';
 import 'View/splash_screen.dart';
 import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // initialise app based on platform- web or mobile
+ // initialise app based on platform- web or mobile
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
       ),
       getPages: [
         GetPage(name: '/', page: () => const SplashScreen()),
+        GetPage(name: '/Welcome', page: () =>  WelcomePage ()),
       ],
       initialRoute: '/',
     );

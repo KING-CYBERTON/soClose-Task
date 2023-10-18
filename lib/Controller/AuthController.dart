@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:oxy_boot/View/usersignin/Login.dart';
-
+import '../View/usersignin/Profile.dart';
 
 class GetAuth extends GetxController {
   static GetAuth instance = Get.find();
@@ -10,8 +9,7 @@ class GetAuth extends GetxController {
   //late Rx<User?> _user;
   Rxn<User> fbUser = Rxn<User>();
   FirebaseAuth auth = FirebaseAuth.instance;
-
-
+  RxInt num = RxInt(0);
   @override
   void onReady() {
     super.onReady();
@@ -19,20 +17,16 @@ class GetAuth extends GetxController {
     fbUser = Rxn<User>(auth.currentUser);
 
     fbUser.bindStream(auth.userChanges());
-
     ever(fbUser, _initialScreen);
-
   }
-
-
 
   _initialScreen(User? user) {
     if (user == null) {
-      print('loged in');
-      Get.offAll(const LoginInPage());
+      num.value = 0;
+      print('null');
     } else {
-      print(user.uid);
-      Get.offAllNamed('/Welcome');
+      print('we are at 3');
+      num.value = 3;
     }
   }
 
@@ -40,13 +34,24 @@ class GetAuth extends GetxController {
     try {
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
+  
+      Get.snackbar(
+        "user info",
+        "user message",
+        backgroundColor: Colors.greenAccent,
+        snackPosition: SnackPosition.TOP,
+        titleText: const Text(
+          "account Sign up sucessful",
+          style: TextStyle(color: Colors.white),
+        ),
+      );
     } catch (e) {
       // we will display the message uing the getx snack bar
       print(e.toString());
 
       Get.snackbar(
         "user info",
-        "user message",
+        "$e",
         backgroundColor: Colors.red,
         snackPosition: SnackPosition.TOP,
         titleText: const Text(
@@ -60,6 +65,16 @@ class GetAuth extends GetxController {
   void logInUser(String email, password) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
+      Get.snackbar(
+        "user info",
+        "user message",
+        backgroundColor: Colors.green,
+        snackPosition: SnackPosition.TOP,
+        titleText: const Text(
+          "account Login Succeful",
+          style: TextStyle(color: Colors.white),
+        ),
+      );
     } catch (e) {
       // we will display the message uing the getx snack bar
       print(e.toString());
@@ -76,7 +91,6 @@ class GetAuth extends GetxController {
       );
     }
   }
-
 
   void resetPassword(String email) async {
     try {
@@ -110,5 +124,6 @@ class GetAuth extends GetxController {
 
   void logOut() {
     auth.signOut();
+   
   }
 }

@@ -10,6 +10,7 @@ class CartController extends GetxController {
   var _products = {}.obs;
   RxString paymentMethod = "Select".obs;
   RxDouble grandTotal = RxDouble(0);
+   RxInt totalProductsInCart = RxInt(0);
 
   void addProduct(Product product) {
     if (_products.containsKey(product)) {
@@ -17,6 +18,7 @@ class CartController extends GetxController {
     } else {
       _products[product] = 1;
     }
+     totalProductsInCart.value = totalProducts;
 
     Get.snackbar(
       "Product Added",
@@ -32,7 +34,9 @@ class CartController extends GetxController {
     } else {
       _products[product] -= 1;
     }
+     totalProductsInCart.value = totalProducts;
   }
+  
 
   void deleteProduct(Product product) {
     _products.remove(product);
@@ -40,6 +44,7 @@ class CartController extends GetxController {
 
   get products => _products;
 
+ 
   get productSubtotal => _products.entries
       .map((product) => product.key.price * product.value)
       .toList();
@@ -50,7 +55,7 @@ class CartController extends GetxController {
       .reduce((value, element) => value + element)
       .toStringAsFixed(2);
 
-      int get totalProducts {
+  int get totalProducts {
     return _products.values.reduce((sum, quantity) => sum + quantity);
   }
 

@@ -1,21 +1,85 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oxy_boot/Styles/color.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:oxy_boot/Styles/font_styles.dart';
 
+import '../Controller/CartController.dart';
+import '../DataModel/Product.dart';
+
 class ProductView extends StatefulWidget {
-  const ProductView({Key? key}) : super(key: key);
+  final Product product;
+  const ProductView({Key? key, required this.product}) : super(key: key);
 
   @override
   State<ProductView> createState() => _ProductViewState();
 }
 
 class _ProductViewState extends State<ProductView> {
+  final CartController controller = Get.find();
+  List<int> euSizes = [];
+  List<double> usSizes = [];
+  List<double> ukSizes = [];
   int selectShows = 0;
-  int countryIndext = 0;
+  int countryIndex = 0;
   int sizeIndex = 0;
+  List<String> convertStringToSizes(String input) {
+    
+    List<String> sizeStrings = input.split(',');
+
+    // Trim each string and convert it to an integer
+    // List<int> sizes = sizeStrings.map((String size) {
+    //   return int.tryParse(size.trim()) ?? 0; // Use 0 or another default value if parsing fails
+    // }).toList();
+
+    // Remove any sizes that are 0 (or another default value)
+    // sizes.removeWhere((size) => size == 0);
+
+    return sizeStrings;
+  }
+
+  Map<int, Map<String, double>> sizeTable = {
+    35: {'US': 3.5, 'UK': 2.5},
+    36: {'US': 4, 'UK': 3},
+    37: {'US': 4.5, 'UK': 3.5},
+    38: {'US': 5, 'UK': 4},
+    39: {'US': 5.5, 'UK': 4.5},
+    40: {'US': 6, 'UK': 5},
+    41: {'US': 7, 'UK': 6},
+    42: {'US': 8, 'UK': 7},
+    43: {'US': 9, 'UK': 8},
+    44: {'US': 9.5, 'UK': 9},
+    45: {'US': 10.5, 'UK': 10},
+    46: {'US': 11.5, 'UK': 11},
+    47: {'US': 12.5, 'UK': 12},
+    // Add more sizes as needed
+  };
+
+  List<double> convertSizesList(List<int> euSizes) {
+    for (int euSize in euSizes) {
+      if (sizeTable.containsKey(euSize)) {
+        usSizes.add(sizeTable[euSize]!['US']!.toDouble());
+      } else {
+        // If the EU size is not found, add a placeholder value (e.g., -1)
+        usSizes.add(-1);
+      }
+    }
+    return usSizes;
+  }
+
+  List<double> convertSizesListUk(List<int> euSizes) {
+    for (int euSize in euSizes) {
+      if (sizeTable.containsKey(euSize)) {
+        ukSizes.add(sizeTable[euSize]!['UK']!.toDouble());
+      } else {
+        // If the EU size is not found, add a placeholder value (e.g., -1)
+        ukSizes.add(-1);
+      }
+    }
+    return ukSizes;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +94,7 @@ class _ProductViewState extends State<ProductView> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 50.0,
+                  height: 20.0,
                 ),
                 Row(
                   children: [
@@ -45,46 +109,51 @@ class _ProductViewState extends State<ProductView> {
                           height: 44.0,
                         )),
                     const Spacer(),
-                    Text(
-                      "Men’s Shoes",
-                      style: textStyle4,
-                    ),
-                    const Spacer(),
-                    Bounce(
-                        onPressed: () {},
-                        duration: const Duration(milliseconds: 500),
-                        child: Image.asset(
-                          "assets/icons/cart_ic.png",
-                          width: 44.0,
-                          height: 44.0,
-                        )),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const SizedBox(
-                      width: double.infinity,
-                      height: 150.0,
-                    ),
-                    Positioned(
-                      bottom: 20,
-                      child: Image.asset(
-                        "assets/images/rotate.png",
-                        height: 50.0,
-                        width: 300,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Image.asset(
-                      "assets/shows/img3.png",
-                      width: double.infinity,
-                      height: 200,
+                    Stack(
+                      children: [
+                        Bounce(
+                            onPressed: () {},
+                            duration: const Duration(milliseconds: 500),
+                            child: Image.asset(
+                              "assets/icons/cart_ic.png",
+                              width: 44.0,
+                              height: 44.0,
+                            )),
+                        Positioned(
+                          right: 0,
+                          top: 3,
+                          child: Container(
+                            width: 20.0,
+                            height: 20.0,
+                            decoration: BoxDecoration(
+                              color: Colors.deepOrange,
+                              borderRadius: BorderRadius.circular(100.0),
+                            ),
+                            child: Center(
+                              child: Obx(() => Text(
+                                    CartController.instance.totalProductsInCart
+                                        .toString(),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: Image.network(
+                    widget.product.PImage,
+                    width: double.infinity,
+                    height: 200,
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
                 Container(
                   width: double.infinity,
@@ -99,36 +168,31 @@ class _ProductViewState extends State<ProductView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "BEST SELLER",
-                          style: textStyle5,
+                          widget.product.PName,
+                          style: const TextStyle(
+                              color: Colors.blue,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(
                           height: 5.0,
                         ),
                         Text(
-                          "Nike Air Jordan",
-                          style: textStyle4,
+                          widget.product.price.toString(),
+                          style: const TextStyle(
+                              // color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(
                           height: 5.0,
                         ),
-                        Text(
-                          "3500 Ksh",
-                          style: textStyle4,
-                        ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
-                        Text(
-                          "Air Jordan is an American brand of basketball shoes athletic, casual, and style clothing produced by Nike....",
-                          style: textStyle7,
-                        ),
-                        const SizedBox(
-                          height: 15.0,
-                        ),
-                        Text(
+                        const Text(
                           "Gallery",
-                          style: textStyle4,
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(
                           height: 15.0,
@@ -152,7 +216,7 @@ class _ProductViewState extends State<ProductView> {
                                           : bgWhite,
                                       borderRadius:
                                           BorderRadius.circular(16.0)),
-                                  child: Image.asset("assets/shows/img2.png"),
+                                  child: Image.network(widget.product.PImage),
                                 ),
                               ),
                               const SizedBox(
@@ -173,7 +237,7 @@ class _ProductViewState extends State<ProductView> {
                                           : bgWhite,
                                       borderRadius:
                                           BorderRadius.circular(16.0)),
-                                  child: Image.asset("assets/shows/img3.png"),
+                                  child: Image.network(widget.product.PImage),
                                 ),
                               ),
                               const SizedBox(
@@ -194,7 +258,7 @@ class _ProductViewState extends State<ProductView> {
                                           : bgWhite,
                                       borderRadius:
                                           BorderRadius.circular(16.0)),
-                                  child: Image.asset("assets/shows/img1.png"),
+                                  child: Image.network(widget.product.PImage),
                                 ),
                               ),
                             ],
@@ -205,163 +269,108 @@ class _ProductViewState extends State<ProductView> {
                         ),
                         Row(
                           children: [
-                            Text(
-                              "Size",
-                              style: textStyle4,
-                            ),
+                            const Text("Size",
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500)),
                             const Spacer(),
                             Bounce(
-                                onPressed: () {
-                                  countryIndext = 0;
-                                  setState(() {});
-                                },
-                                duration: const Duration(milliseconds: 200),
-                                child: Text(
-                                  "EU",
-                                  style: countryIndext == 0
-                                      ? textStyle4
-                                      : textStyle5,
-                                )),
-                            const SizedBox(
-                              width: 5.0,
+                              onPressed: () {
+                                countryIndex = 0;
+                                setState(() {});
+                              },
+                              duration: const Duration(milliseconds: 200),
+                              child: Text("EU",
+                                  style: countryIndex == 0
+                                      ? const TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500)
+                                      : const TextStyle(
+                                          // color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500)),
                             ),
+                            const SizedBox(width: 5.0),
                             Bounce(
-                                onPressed: () {
-                                  countryIndext = 1;
-                                  setState(() {});
-                                },
-                                duration: const Duration(milliseconds: 200),
-                                child: Text(
-                                  "US",
-                                  style: countryIndext == 1
-                                      ? textStyle4
-                                      : textStyle5,
-                                )),
-                            const SizedBox(
-                              width: 5.0,
+                              onPressed: () {
+                                convertSizesList(euSizes);
+                                countryIndex = 1;
+                                setState(() {});
+                              },
+                              duration: const Duration(milliseconds: 200),
+                              child: Text("US",
+                                  style: countryIndex == 1
+                                      ? const TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500)
+                                      : const TextStyle(
+                                          // color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500)),
                             ),
+                            const SizedBox(width: 5.0),
                             Bounce(
-                                onPressed: () {
-                                  countryIndext = 2;
-                                  setState(() {});
-                                },
-                                duration: const Duration(milliseconds: 200),
-                                child: Text("UK",
-                                    style: countryIndext == 2
-                                        ? textStyle4
-                                        : textStyle5))
+                              onPressed: () {
+                                convertSizesListUk(euSizes);
+                                countryIndex = 2;
+                                setState(() {});
+                              },
+                              duration: const Duration(milliseconds: 200),
+                              child: Text("UK",
+                                  style: countryIndex == 2
+                                      ? const TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500)
+                                      : const TextStyle(
+                                          // color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500)),
+                            ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
+                        const SizedBox(height: 10.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Bounce(
-                              onPressed: () {
-                                sizeIndex = 0;
-                                setState(() {});
-                              },
-                              duration: const Duration(milliseconds: 200),
-                              child: CircleAvatar(
-                                radius: 18,
-                                backgroundColor:
-                                    sizeIndex == 0 ? customBlue : bgWhite,
-                                child: Text(
-                                  "38",
-                                  style:
-                                      sizeIndex == 0 ? textStyle8 : textStyle1,
+                            for (int i = 0; i < convertStringToSizes(widget.product.size).length; i++)
+                              Bounce(
+                                onPressed: () {
+                                  sizeIndex = i;
+                                  setState(() {});
+                                },
+                                duration: const Duration(milliseconds: 200),
+                                child: CircleAvatar(
+                                  radius: 18,
+                                  backgroundColor:
+                                      sizeIndex == i ? customBlue : bgWhite,
+                                  child: Text(
+                                    countryIndex == 0
+                                        ? euSizes[i].toString()
+                                        : countryIndex == 1
+                                            ? (i < usSizes.length
+                                                ? usSizes[i].toString()
+                                                : '')
+                                            : (i < ukSizes.length
+                                                ? ukSizes[i].toString()
+                                                : ''),
+                                    style: sizeIndex == i
+                                        ? const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500)
+                                        : const TextStyle(
+                                            // color: Colors.black,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Bounce(
-                              onPressed: () {
-                                sizeIndex = 1;
-                                setState(() {});
-                              },
-                              duration: const Duration(milliseconds: 200),
-                              child: CircleAvatar(
-                                radius: 18,
-                                backgroundColor:
-                                    sizeIndex == 1 ? customBlue : bgWhite,
-                                child: Text(
-                                  "39",
-                                  style:
-                                      sizeIndex == 1 ? textStyle8 : textStyle1,
-                                ),
-                              ),
-                            ),
-                            Bounce(
-                              onPressed: () {
-                                sizeIndex = 2;
-                                setState(() {});
-                              },
-                              duration: const Duration(milliseconds: 200),
-                              child: CircleAvatar(
-                                radius: 18,
-                                backgroundColor:
-                                    sizeIndex == 2 ? customBlue : bgWhite,
-                                child: Text(
-                                  "40",
-                                  style:
-                                      sizeIndex == 2 ? textStyle8 : textStyle1,
-                                ),
-                              ),
-                            ),
-                            Bounce(
-                              onPressed: () {
-                                sizeIndex = 3;
-                                setState(() {});
-                              },
-                              duration: const Duration(milliseconds: 200),
-                              child: CircleAvatar(
-                                radius: 18,
-                                backgroundColor:
-                                    sizeIndex == 3 ? customBlue : bgWhite,
-                                child: Text(
-                                  "41",
-                                  style:
-                                      sizeIndex == 3 ? textStyle8 : textStyle1,
-                                ),
-                              ),
-                            ),
-                            Bounce(
-                              onPressed: () {
-                                sizeIndex = 4;
-                                setState(() {});
-                              },
-                              duration: const Duration(milliseconds: 200),
-                              child: CircleAvatar(
-                                radius: 18,
-                                backgroundColor:
-                                    sizeIndex == 4 ? customBlue : bgWhite,
-                                child: Text(
-                                  "41",
-                                  style:
-                                      sizeIndex == 4 ? textStyle8 : textStyle1,
-                                ),
-                              ),
-                            ),
-                            Bounce(
-                              onPressed: () {
-                                sizeIndex = 5;
-                                setState(() {});
-                              },
-                              duration: const Duration(milliseconds: 200),
-                              child: CircleAvatar(
-                                radius: 18,
-                                backgroundColor:
-                                    sizeIndex == 5 ? customBlue : bgWhite,
-                                child: Text(
-                                  "41",
-                                  style:
-                                      sizeIndex == 5 ? textStyle8 : textStyle1,
-                                ),
-                              ),
-                            ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -402,14 +411,16 @@ class _ProductViewState extends State<ProductView> {
                     style: textStyle1,
                   ),
                   Text(
-                    "3500 Ksh",
+                    widget.product.price.toString(),
                     style: textStyle4,
                   ),
                 ],
               ),
               const Spacer(),
               Bounce(
-                onPressed: () {},
+                onPressed: () {
+                  controller.addProduct(widget.product);
+                },
                 duration: const Duration(milliseconds: 200),
                 child: Container(
                   width: 165.0,

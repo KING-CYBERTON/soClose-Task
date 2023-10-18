@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../DataModel/Product.dart';
 import '../Controller/FirebaseService.dart';
+import '../DataModel/UserModel.dart';
 
 class ProductController extends GetxController {
   static ProductController instance = Get.find();
@@ -12,9 +13,11 @@ class ProductController extends GetxController {
   final shoes = <Product>[].obs;
   final combo = <Product>[].obs;
   final accesories = <Product>[].obs;
-  
+  final users = <UserData>[].obs;
+
   @override
   void onInit() {
+    users.bindStream(FirestoreDB().Users());
     products.bindStream(FirestoreDB().newarrivals());
     tshirts.bindStream(FirestoreDB().Tshirt());
     jackets.bindStream(FirestoreDB().Jackets());

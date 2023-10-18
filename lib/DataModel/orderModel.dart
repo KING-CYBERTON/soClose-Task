@@ -6,16 +6,16 @@ class Orders {
   final String? mpesnumber;
   final String? mpesacode;
   final List orderlist;
+ // final List deliverdetails;
 
-  const Orders( {
+  const Orders({
     required this.contactname,
     required this.contactphone,
     required this.total,
     required this.mpesaname,
     required this.mpesnumber,
     required this.mpesacode,
-    required this.orderlist, 
+    required this.orderlist,
+    //required this.deliverdetails,
   });
-
-
 }

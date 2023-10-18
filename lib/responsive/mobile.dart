@@ -19,6 +19,8 @@ import '../View/CAtegoryPages/Categorycards.dart';
 import '../View/CAtegoryPages/favourite_screen.dart';
 import '../View/CAtegoryPages/profile.dart';
 import '../View/Menu/card_screen.dart';
+import '../View/usersignin/Login.dart';
+import '../View/usersignin/Profile.dart';
 import 'silverhomepage.dart';
 
 // ignore: camel_case_types
@@ -35,6 +37,22 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
   final cartController = Get.put(CartController());
   bool gridview = true;
   int navigationIndex = 0;
+
+  setBottomBarIndex(index) {
+    setState(() {
+      navigationIndex = index;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setBottomBarIndex(0);
+  }
+ 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +82,7 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 Bounce(
@@ -121,32 +139,52 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
           ]),
       body: Center(
-        child: Container(
-          color: bgWhite,
-          height: double.infinity,
-          width: double.infinity,
-          child:
-          //CustomScrollViewExample(name: name,)
-           homepage(
-            gridview: gridview,
-            wsize: MediaQuery.of(context).size.width * 0.8,
-            name: name,
-          ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                color: bgWhite,
+                child: IndexedStack(
+                  index: navigationIndex,
+                  children: [
+                    // Screen for navigationIndex 0 (Home)
+                    homepage(
+                      gridview: gridview,
+                      wsize: MediaQuery.of(context).size.width * 0.8,
+                      name: name,
+                      navigationindex: navigationIndex,
+                    ),
+                    // Screen for navigationIndex 1 (Favorites)
+                    FavouriteScreen(),
+                    // Screen for navigationIndex 2 (About Us)
+
+                    // Screen for navigationIndex 3 (Login)
+                     LoginInPage(navigationindex: navigationIndex,),
+                    // Screen for navigationIndex 4 (Cart)
+                    const CartScreen(),
+                  
+                    // Add more screens as needed
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: Container(
         width: double.infinity,
-        height: 100,
+        height: 60,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/bottomnav_bg.png"),
             fit: BoxFit.fitWidth,
           ),
+          color: Colors.transparent,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -178,13 +216,16 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
                 ),
                 InkWell(
                   onTap: () {
-                    navigationIndex = 1;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const FavouriteScreen(),
-                      ),
-                    );
+                    setState(() {
+                      navigationIndex = 1;
+                    });
+
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const FavouriteScreen(),
+                    //   ),
+                    // );
                   },
                   child: Image.asset(
                     "assets/icons/favourite_ic.png",
@@ -197,6 +238,7 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
                   width: 60.0,
                 ),
                 InkWell(
+                  
                   onTap: () {
                     showDialog(
                       context: context,
@@ -209,24 +251,22 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
                     "assets/icons/location_ic.png",
                     width: 25,
                     height: 25,
-                    color: navigationIndex == 2 ? customBlue : customGrey,
+                    color: Colors.red,
                   ),
                 ),
                 InkWell(
                   onTap: () {
-                    navigationIndex = 3;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ProfileScreen(),
-                      ),
-                    );
+                    setState(() {
+                      navigationIndex = 2;
+                    });
+
+                   
                   },
                   child: Image.asset(
                     "assets/icons/user_ic.png",
                     width: 25,
                     height: 25,
-                    color: navigationIndex == 3 ? customBlue : customGrey,
+                    color: navigationIndex == 2 ? customBlue : customGrey,
                   ),
                 ),
               ],
@@ -234,53 +274,58 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
           ],
         ),
       ),
-       resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: true,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(top: 70.0),
         child: SizedBox(
-          width: 56.0,
-          height: 56.0,
-          child: Stack(
-            children:[ FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const CartScreen()),
-                );
-              },
-              backgroundColor: customBlue,
-              elevation: 10,
-              child: Image.asset(
-                "assets/icons/bag_ic.png",
-                width: 20.0,
-                height: 20.0,
+          width: 50.0,
+          height: 50.0,
+          child: Container(
+            color: Colors.transparent,
+            child: Stack(children: [
+              FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    navigationIndex = 3;
+                  });
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => const CartScreen()),
+                  // );
+                },
+                backgroundColor: customBlue,
+                elevation: 10,
+                child: Image.asset(
+                  "assets/icons/bag_ic.png",
+                  width: 20.0,
+                  height: 20.0,
+                ),
               ),
-            ),
-            Positioned(
-                      right: 0,
-                      top: 3,
-                     
-                        child: Container(
-                          width: 20.0,
-                          height: 20.0,
-                          decoration: BoxDecoration(
-                            color: Colors.deepOrange,
-                            borderRadius: BorderRadius.circular(100.0),
+              Positioned(
+                right: 0,
+                top: 3,
+                child: Container(
+                  width: 20.0,
+                  height: 20.0,
+                  decoration: BoxDecoration(
+                    color: Colors.deepOrange,
+                    borderRadius: BorderRadius.circular(100.0),
+                  ),
+                  child: Center(
+                    child: Obx(() => Text(
+                          CartController.instance.totalProductsInCart.toString(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.bold,
                           ),
-                          child: Center(
-                            child: Text("",
-                             // CartController.instance.totalProducts.toString(),
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 8.0, // Adjust the font size as needed
-                              ),
-                            ),
-                          ),
-                        ),
-                      
-                    )
-          ]),
+                        )),
+                  ),
+                ),
+              )
+            ]),
+          ),
         ),
       ),
     );
@@ -288,6 +333,7 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
 }
 
 class homepage extends StatefulWidget {
+  final int navigationindex;
   final bool gridview;
   final double wsize;
   final String name;
@@ -295,7 +341,8 @@ class homepage extends StatefulWidget {
       {super.key,
       required this.gridview,
       required this.wsize,
-      required this.name});
+      required this.name,
+      required this.navigationindex});
   @override
   _homepageState createState() => _homepageState();
 }
@@ -310,20 +357,20 @@ class _homepageState extends State<homepage>
   final List<String> letters = ['A', 'B', 'C', 'D', 'E', 'F'];
 
   late AnimationController _animationController;
-  double _startPositionX = 0.0;
+  final double _startPositionX = 0.0;
   double _endPositionX = 0.0;
 
   @override
   void initState() {
     super.initState();
-     _currentNumber = 2;
+    _currentNumber = 2;
     Future.delayed(Duration.zero, () {
       _updateNumber(2); // Update _currentNumber after the widget is built
     });
     _endPositionX = widget.wsize;
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 6),
+      duration: const Duration(seconds: 6),
     )..repeat(reverse: true);
   }
 
@@ -347,34 +394,27 @@ class _homepageState extends State<homepage>
     // Determine the number of grids based on screen width
     if (screenWidth >= 600) {
       _crossAxisCount = 4;
-    } else if (screenWidth >= 1200) {
+    } else if (screenWidth >= 800) {
       _crossAxisCount = 6;
     } else {
       _crossAxisCount = 2;
     }
 
-   
-   
-      return Column(
-        children: [
-          SizedBox(height: 16),
-       
-          Expanded(
-            child: Column(
-              children: [
-               
-                if (_currentNumber == 2) ...shoesList(),
-                
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        Expanded(
+          child: Column(
+            children: [
+              if (widget.navigationindex == 0) ...shoesList(),
 
-                // Add similar conditions for other categories/lists if needed
-              ],
-            ),
+              // Add similar conditions for other categories/lists if needed
+            ],
           ),
-        ],
-      );
-    }
-  
-
+        ),
+      ],
+    );
+  }
 
   List<Widget> shoesList() {
     return [
@@ -382,73 +422,8 @@ class _homepageState extends State<homepage>
         productList: productController.shoes,
         isGridView:
             widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, name: widget.name, // You can adjust this as needed
-      ),
-    ];
-  }
-
-  List<Widget> tshirtList() {
-    return [
-      ProductList(
-        productList: productController.tshirts,
-        isGridView:
-            widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, name: widget.name, // You can adjust this as needed
-      ),
-    ];
-  }
-
-  List<Widget> JacketList() {
-    return [
-      ProductList(
-        productList: productController.jackets,
-        isGridView:
-            widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount,name: widget.name, // You can adjust this as needed
-      ),
-    ];
-  }
-
-  List<Widget> accesorieList() {
-    return [
-      ProductList(
-        productList: productController.accesories,
-        isGridView:
-            widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, name: widget.name, // You can adjust this as needed
-      ),
-    ];
-  }
-
-  List<Widget> NewArrivals() {
-    return [
-      ProductList(
-        productList: productController.products,
-        isGridView:
-            widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, name: widget.name, // You can adjust this as needed
-      ),
-    ];
-  }
-
-  List<Widget> combolist() {
-    return [
-      ProductList(
-        productList: productController.combo,
-        isGridView:
-            widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, name: widget.name, // You can adjust this as needed
-      ),
-    ];
-  }
-
-  List<Widget> trouserlist() {
-    return [
-      ProductList(
-        productList: productController.trousers,
-        isGridView:
-            widget.gridview, // Set to true for grid view, false for list view
-        screenWidth: _crossAxisCount, name: widget.name, // You can adjust this as needed
+        screenWidth: _crossAxisCount,
+        name: widget.name, // You can adjust this as needed
       ),
     ];
   }
