@@ -19,8 +19,8 @@ import '../../constraints/CustomText.dart';
 // import 'package:panda_period/auth/GetAuth.dart';
 
 class LoginInPage extends StatefulWidget {
-  final int navigationindex;
-  const LoginInPage({super.key, required this.navigationindex});
+
+  const LoginInPage({super.key, });
 
   @override
   State<LoginInPage> createState() => _LoginInPageState();
@@ -44,6 +44,9 @@ class _LoginInPageState extends State<LoginInPage> {
   void initState() {
     super.initState();
     _userDataFuture = FireRepo.instance.getUserData(email.toString());
+    print(currentnum);
+      print(num);
+
   }
 
   int currentnum = 2;
@@ -102,17 +105,167 @@ class _LoginInPageState extends State<LoginInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => contoller.num.value == 3
+    return Obx(() => contoller.stateindex.value == 3
         ? num == 2
-            ? homeprofile(num)
+            ?homeprofile(num)
             : num == 3
                 ? FavouriteScreen()
                 : deliveryform()
-        : currentnum == 2
-            ? Scaffold(
-                resizeToAvoidBottomInset: false,
-                body: SafeArea(
-                    child: Center(
+        : 
+
+           currentnum == 2
+              ? Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  body: SafeArea(
+                      child: Center(
+                    child: Container(
+                      width: 350,
+                      height: 400,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: const [
+                          BoxShadow(
+                            blurRadius: 10,
+                            offset: Offset(1, 1),
+                            color: Color.fromARGB(255, 31, 126, 189),
+                          )
+                        ],
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 36, 107, 148),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(11),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(9.0),
+                        child: Center(
+                          child: Column(children: [
+                            const Text(
+                              'Welcome',
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 9, 17, 88),
+                              ),
+                            ),
+                            const SizedBox(height: 40),
+                            // ignore: prefer_const_constructors
+                            CustomText(
+                              hintText: 'Enter your email',
+                              textInputType: TextInputType.emailAddress,
+                              isPass: false,
+                              textController: emailController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter Contact Phone Number';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            // ignore: prefer_const_constructors
+                            CustomText(
+                              hintText: 'Enter your password',
+                              textInputType: TextInputType.emailAddress,
+                              isPass: true,
+                              textController: passwordController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter Contact Phone Number';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 20),
+
+                            const SizedBox(
+                              width: 90,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                GetAuth.instance.logInUser(
+                                    emailController.text.trim(),
+                                    passwordController.text.trim());
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white10,
+                                shadowColor:
+                                    const Color.fromARGB(26, 81, 160, 180),
+                              ),
+                              child: const Text(
+                                'Log In',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 13, 1, 39),
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(width: 60),
+                            const SizedBox(height: 20),
+                            Wrap(
+                              children: [
+                                RichText(
+                                    text: TextSpan(
+                                  text: "Don't have an account?",
+                                  style: const TextStyle(
+                                    color: Color.fromARGB(221, 51, 48, 48),
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                        text: ' SignUp',
+                                        style: const TextStyle(
+                                          color: Color.fromARGB(255, 22, 72, 165),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            setState(() {
+                                              currentnum = 3;
+                                            });
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //       builder: (context) => SignUpPage()),
+                                            // );
+                                            //  Get.to(const UserScreen());
+                                          })
+                                  ],
+                                )),
+                              ],
+                            ),
+                            Wrap(
+                              children: [
+                                RichText(
+                                    text: TextSpan(
+                                  text: "Forgotten password?",
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                        text: 'RECOVER',
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            GetAuth.instance.resetPassword(
+                                                emailController.text.trim());
+                                          })
+                                  ],
+                                )),
+                              ],
+                            ),
+                          ]),
+                        ),
+                      ),
+                    ),
+                  )))
+              : Scaffold(
+                  body: SafeArea(
+                      child: Center(
                   child: Container(
                     width: 350,
                     height: 400,
@@ -133,17 +286,18 @@ class _LoginInPageState extends State<LoginInPage> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(9.0),
-                      child: Center(
-                        child: Column(children: [
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                           const Text(
-                            'Welcome',
+                            'Welcome sign up',
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 9, 17, 88),
+                              color: Color.fromARGB(255, 4, 8, 59),
                             ),
                           ),
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 20),
                           // ignore: prefer_const_constructors
                           CustomText(
                             hintText: 'Enter your email',
@@ -172,200 +326,53 @@ class _LoginInPageState extends State<LoginInPage> {
                             },
                           ),
                           const SizedBox(height: 20),
-
-                          const SizedBox(
-                            width: 90,
-                          ),
                           ElevatedButton(
-                            onPressed: () {
-                              GetAuth.instance.logInUser(
-                                  emailController.text.trim(),
-                                  passwordController.text.trim());
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white10,
-                              shadowColor:
-                                  const Color.fromARGB(26, 81, 160, 180),
-                            ),
-                            child: const Text(
-                              'Log In',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 13, 1, 39),
+                              onPressed: () {
+                                contoller.createUser(emailController.text.trim(),
+                                    passwordController.text.trim());
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white10,
+                                shadowColor: Colors.grey,
                               ),
-                            ),
-                          ),
+                              child: const Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 6, 12, 88),
+                                ),
+                              )),
 
-                          const SizedBox(width: 60),
                           const SizedBox(height: 20),
-                          Wrap(
+                          RichText(
+                              text: TextSpan(
+                            text: 'Have an account?',
+                            style: const TextStyle(
+                              color: Color.fromARGB(255, 7, 6, 6),
+                            ),
                             children: [
-                              RichText(
-                                  text: TextSpan(
-                                text: "Don't have an account?",
-                                style: const TextStyle(
-                                  color: Color.fromARGB(221, 51, 48, 48),
-                                ),
-                                children: [
-                                  TextSpan(
-                                      text: ' SignUp',
-                                      style: const TextStyle(
-                                        color: Color.fromARGB(255, 22, 72, 165),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          setState(() {
-                                            currentnum = 3;
-                                          });
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //       builder: (context) => SignUpPage()),
-                                          // );
-                                          //  Get.to(const UserScreen());
-                                        })
-                                ],
-                              )),
+                              TextSpan(
+                                  text: '  LogIn',
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      setState(() {
+                                        currentnum = 2;
+                                      });
+                                      // Get.to(LoginInPage());
+                                    })
                             ],
-                          ),
-                          Wrap(
-                            children: [
-                              RichText(
-                                  text: TextSpan(
-                                text: "Forgotten password?",
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                ),
-                                children: [
-                                  TextSpan(
-                                      text: 'RECOVER',
-                                      style: const TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          GetAuth.instance.resetPassword(
-                                              emailController.text.trim());
-                                        })
-                                ],
-                              )),
-                            ],
-                          ),
-                        ]),
+                          )),
+                        ],
                       ),
                     ),
                   ),
-                )))
-            : Scaffold(
-                body: SafeArea(
-                    child: Center(
-                child: Container(
-                  width: 350,
-                  height: 400,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(
-                        blurRadius: 10,
-                        offset: Offset(1, 1),
-                        color: Color.fromARGB(255, 31, 126, 189),
-                      )
-                    ],
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 36, 107, 148),
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(11),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(9.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Welcome sign up',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 4, 8, 59),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        // ignore: prefer_const_constructors
-                        CustomText(
-                          hintText: 'Enter your email',
-                          textInputType: TextInputType.emailAddress,
-                          isPass: false,
-                          textController: emailController,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter Contact Phone Number';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        // ignore: prefer_const_constructors
-                        CustomText(
-                          hintText: 'Enter your password',
-                          textInputType: TextInputType.emailAddress,
-                          isPass: true,
-                          textController: passwordController,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter Contact Phone Number';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        ElevatedButton(
-                            onPressed: () {
-                              contoller.createUser(emailController.text.trim(),
-                                  passwordController.text.trim());
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white10,
-                              shadowColor: Colors.grey,
-                            ),
-                            child: const Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 6, 12, 88),
-                              ),
-                            )),
-
-                        const SizedBox(height: 20),
-                        RichText(
-                            text: TextSpan(
-                          text: 'Have an account?',
-                          style: const TextStyle(
-                            color: Color.fromARGB(255, 7, 6, 6),
-                          ),
-                          children: [
-                            TextSpan(
-                                text: '  LogIn',
-                                style: const TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    setState(() {
-                                      currentnum = 2;
-                                    });
-                                    // Get.to(LoginInPage());
-                                  })
-                          ],
-                        )),
-                      ],
-                    ),
-                  ),
-                ),
-              ))));
+                )
+                )
+                ));
   }
 
   Widget Userprofilescreen() {
@@ -927,6 +934,8 @@ class _LoginInPageState extends State<LoginInPage> {
       },
     );
   }
+
+
 }
 
 class editdelivery extends StatefulWidget {

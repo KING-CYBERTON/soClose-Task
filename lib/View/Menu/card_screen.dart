@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -5,8 +6,13 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:oxy_boot/Widgets/RowCart.dart';
 
 import '../../Controller/CartController.dart';
+import '../../Controller/Deliverydetails.dart';
+import '../../DataModel/Deliverydetails.dart';
 import '../../Styles/color.dart';
 import '../../constraints/CustomText.dart';
+import '../../responsive/mobile.dart';
+import '../../responsive/response.dart';
+import '../../responsive/webview.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -16,12 +22,61 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKeyy = GlobalKey<FormState>();
+  final TextEditingController streetController = TextEditingController();
+  final TextEditingController townController = TextEditingController();
+  final TextEditingController deliveryController = TextEditingController();
+  final detaildelivery = Get.put(DeliveryDetailsController());
+  String selectedCounty = '';
+  List<String> counties = [
+    'Nairobi',
+    'Baringo',
+    'Bomet',
+    'Bungoma',
+    'Busia',
+    'Elgeyo-Marakwet',
+    'Embu',
+    'Garissa',
+    'Homa Bay',
+    'Isiolo',
+    'Kajiado',
+    'Kakamega',
+    'Kericho',
+    'Kiambu',
+    'Kilifi',
+    'Kirinyaga',
+    'Kisii',
+    'Kitui',
+    'Kwale',
+    'Laikipia',
+    'Lamu',
+    'Machakos',
+    'Makueni',
+    'Mandera',
+    'Meru',
+    'Migori',
+    'Marsabit',
+    'Nandi',
+    'Narok',
+    'Nyamira',
+    'Nyandarua',
+    'Nyeri',
+    'Samburu',
+    'Siaya',
+    'Taita-Taveta',
+    'Tana River',
+    'Tharaka-Nithi',
+    'Trans Nzoia',
+    'Turkana',
+    'Uasin Gishu',
+    'Vihiga',
+    'Wajir',
+    'West Pokot',
+  ];
 
   @override
   Widget build(BuildContext context) {
-     const int webScreenSize =700;
+    const int webScreenSize = 700;
     return Scaffold(
         backgroundColor: const Color(0xffffffff),
         body: Column(children: [
@@ -33,22 +88,8 @@ class _CartScreenState extends State<CartScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    width: 45,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30.0),
-                      image: const DecorationImage(
-                        image: AssetImage("assets/icons/back_ic.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                const SizedBox(
+                  width: 50,
                 ),
                 const Text(
                   'Cart',
@@ -58,6 +99,15 @@ class _CartScreenState extends State<CartScreen> {
                       fontWeight: FontWeight.w500),
                 ),
                 InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        // Return your deliveryform as a dialog
+                        return Deliverydetails(context);
+                      },
+                    );
+                  },
                   child: Container(
                     width: 45,
                     height: 45,
@@ -65,24 +115,133 @@ class _CartScreenState extends State<CartScreen> {
                       color: bgWhite,
                       borderRadius: BorderRadius.circular(30.0),
                     ),
+                    child: const Icon(Icons.delivery_dining),
                   ),
                 ),
               ],
             ),
           ),
-          
           Expanded(
             child: CartProducts(),
           ),
-          CartTotal(),
-          SizedBox(
+          const CartTotal(),
+          const SizedBox(
             height: 20,
           )
         ]));
   }
+
+  Widget Deliverydetails(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Container(
+          width: kIsWeb ? 800 : 400,
+          padding: const EdgeInsets.all(20),
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(46.0),
+            child: Form(
+              key: _formKeyy,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextFormField(
+                      controller: streetController,
+                      decoration:
+                          const InputDecoration(labelText: 'Street Address'),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Street address is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    DropdownButtonFormField(
+                      items: counties.map((county) {
+                        return DropdownMenuItem(
+                          value: county,
+                          child: Text(county),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        selectedCounty = value.toString();
+                      },
+                      decoration: const InputDecoration(labelText: 'County'),
+                      validator: (value) {
+                        if (value == null || value.toString().isEmpty) {
+                          return 'County is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextFormField(
+                      controller: townController,
+                      decoration: const InputDecoration(labelText: 'Town'),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Town is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextFormField(
+                      controller: deliveryController,
+                      maxLines: 5,
+                      maxLength: 200,
+                      decoration: const InputDecoration(
+                        labelText: 'Delivery Details (Optional)',
+                        hintText: 'Additional information about the delivery',
+                      ),
+                    ),
+                    const SizedBox(height: 32.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKeyy.currentState!.validate()) {
+                              final details = DeliveryDetails(
+                                street: streetController.text,
+                                deliverDetails: deliveryController.text,
+                                town: townController.text,
+                                county: selectedCounty,
+                              );
+
+                              // Add the details to the GetX controller
+                              Get.find<CartController>()
+                                  .addDeliveryDetails(details);
+
+                              Navigator.pop(context); // Close the dialog
+                            }
+                          },
+                          child: const Text('Submit'),
+                        ),
+                        Container(
+                          color: Colors.red,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context); // Close the dialog
+                              },
+                              child: const Text('Back')),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-Widget  paymentmethod(GlobalKey<FormState> formKey) {
+Widget paymentmethod(GlobalKey<FormState> formKey) {
   final CartController controller = Get.find();
   final MpesaNameController = TextEditingController();
   final MpesaCodeController = TextEditingController();
@@ -91,7 +250,6 @@ Widget  paymentmethod(GlobalKey<FormState> formKey) {
   final ContactPhoneController = TextEditingController();
 
   return SingleChildScrollView(
-    
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,8 +287,10 @@ Widget  paymentmethod(GlobalKey<FormState> formKey) {
                         fontSize: 12,
                       ),
                     ),
-                    Image.asset('images/mpesagoodtimes.PNG',
-                fit: BoxFit.contain,),
+                    Image.asset(
+                      'images/mpesagoodtimes.PNG',
+                      fit: BoxFit.contain,
+                    ),
                     Radio(
                       value: "Cash",
                       groupValue: controller.paymentMethod.value,
@@ -151,7 +311,6 @@ Widget  paymentmethod(GlobalKey<FormState> formKey) {
                 )),
             // Display M-Pesa specific text fields if the payment method is M-Pesa
             if (controller.paymentMethod.value == 'M-Pesa') ...[
-              
               SizedBox(
                 width: 300,
                 child: Container(
@@ -165,7 +324,7 @@ Widget  paymentmethod(GlobalKey<FormState> formKey) {
                       )
                     ],
                     border: Border.all(
-                      color: Color.fromARGB(255, 36, 107, 148),
+                      color: const Color.fromARGB(255, 36, 107, 148),
                       width: 2,
                     ),
                     borderRadius: BorderRadius.circular(11),
@@ -177,12 +336,13 @@ Widget  paymentmethod(GlobalKey<FormState> formKey) {
                       child: Column(
                         children: [
                           SizedBox(
-                height: 40,
-                child: Image.asset('images/mpesagoodtimes.PNG',
-                fit: BoxFit.contain,),
-              ),
+                            height: 40,
+                            child: Image.asset(
+                              'images/mpesagoodtimes.PNG',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                           const SizedBox(height: 10),
-
                           CustomText(
                             isPass: false,
                             hintText: 'Mpesa Payment Name',
@@ -258,25 +418,27 @@ Widget  paymentmethod(GlobalKey<FormState> formKey) {
             if (controller.paymentMethod.value == 'Cash') ...[
               const SizedBox(height: 10),
               TextFormField(
-                  controller: ContactNameController,
-                  decoration: InputDecoration(labelText: 'Contact Name'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter Contact Name';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller: ContactPhoneController,
-                  decoration: InputDecoration(labelText: 'Contact Phone Number'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter Contact Phone Number';
-                    }
-                    return null;
-                  },)
+                controller: ContactNameController,
+                decoration: const InputDecoration(labelText: 'Contact Name'),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter Contact Name';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: ContactPhoneController,
+                decoration:
+                    const InputDecoration(labelText: 'Contact Phone Number'),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter Contact Phone Number';
+                  }
+                  return null;
+                },
+              )
             ],
           ],
         ),

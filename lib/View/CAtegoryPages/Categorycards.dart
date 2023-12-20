@@ -295,13 +295,27 @@ class ProductCard2 extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child:
-                      ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child:  Image(
-                      image: NetworkImage(productList.PImage),
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.fill,
+                productList.outofstock == true?
+                      Stack(
+                        children: [
+                         Container(color: Colors.white.withOpacity(0.8),height: 30,child: Text('OutofStock',style: TextStyle(color: Colors.red ,fontSize: 20),),),
+                          ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
+                          child:  Image(
+                          image: NetworkImage(productList.PImage),
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.fill,
+                    ),), Container(color: Colors.white.withOpacity(0.8),height: 30,child: Text('OutofStock',style: TextStyle(color: Colors.red ,fontSize: 20),),),
+                        
+                        ],
+                      ):ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
+                          child:  Image(
+                          image: NetworkImage(productList.PImage),
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.fill,
                     ),),
            
               ),

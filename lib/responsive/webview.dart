@@ -13,6 +13,7 @@ import 'package:oxy_boot/responsive/mobile.dart';
 import '../Styles/font_styles.dart';
 import '../View/home_page.dart';
 import '../View/usersignin/Login.dart';
+import '../View/usersignin/SignUp.dart';
 import 'response.dart';
 
 // ignore: camel_case_types
@@ -347,7 +348,8 @@ class _weblcreenlayoutState extends State<weblcreenlayout> {
                       // Screen for navigationIndex 2 (About Us)
 
                       // Screen for navigationIndex 3 (Login)
-                      LoginInPage(navigationindex: navigationIndex,),
+                      SignUpPage(),
+                     // LoginInPage(),
                       // Screen for navigationIndex 4 (Cart)
                       const CartScreen(),
                       // Add more screens as needed

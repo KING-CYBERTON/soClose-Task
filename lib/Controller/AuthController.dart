@@ -8,8 +8,9 @@ class GetAuth extends GetxController {
 
   //late Rx<User?> _user;
   Rxn<User> fbUser = Rxn<User>();
+  Rxn<bool> isloggedin = Rxn<bool>();
   FirebaseAuth auth = FirebaseAuth.instance;
-  RxInt num = RxInt(0);
+  RxInt stateindex = RxInt(0);
   @override
   void onReady() {
     super.onReady();
@@ -22,11 +23,11 @@ class GetAuth extends GetxController {
 
   _initialScreen(User? user) {
     if (user == null) {
-      num.value = 0;
-      print('null');
+      isloggedin.value = false;
+      print('LoggedOut');
     } else {
-      print('we are at 3');
-      num.value = 3;
+      isloggedin.value = true;
+      print('LoggedIn');
     }
   }
 
@@ -34,7 +35,7 @@ class GetAuth extends GetxController {
     try {
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-  
+
       Get.snackbar(
         "user info",
         "user message",
@@ -124,6 +125,5 @@ class GetAuth extends GetxController {
 
   void logOut() {
     auth.signOut();
-   
   }
 }

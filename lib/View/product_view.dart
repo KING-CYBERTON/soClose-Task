@@ -25,8 +25,22 @@ class _ProductViewState extends State<ProductView> {
   int selectShows = 0;
   int countryIndex = 0;
   int sizeIndex = 0;
+  List<int> convertStringTointSizes(String input) {
+    List<String> sizeStrings = input.split(',');
+
+    // Trim each string and convert it to an integer
+    List<int> sizes = sizeStrings.map((String size) {
+      return int.tryParse(size.trim()) ??
+          0; // Use 0 or another default value if parsing fails
+    }).toList();
+
+    // Remove any sizes that are 0 (or another default value)
+    sizes.removeWhere((size) => size == 0);
+
+    return sizes;
+  }
+
   List<String> convertStringToSizes(String input) {
-    
     List<String> sizeStrings = input.split(',');
 
     // Trim each string and convert it to an integer
@@ -83,6 +97,7 @@ class _ProductViewState extends State<ProductView> {
 
   @override
   Widget build(BuildContext context) {
+    List<int> euSizes = convertStringTointSizes(widget.product.size);
     return Scaffold(
       backgroundColor: bgWhite,
       body: SizedBox(
@@ -148,12 +163,16 @@ class _ProductViewState extends State<ProductView> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(50.0),
-                  child: Image.network(
-                    widget.product.PImage,
-                    width: double.infinity,
-                    height: 200,
-                    fit: BoxFit.fitHeight,
-                  ),
+                  child: selectShows == 0
+                      ? Image.network(
+                          widget.product.PImage,
+                          width: double.infinity,
+                          height: 200,
+                          fit: BoxFit.fitHeight,
+                        )
+                      : selectShows == 1
+                          ? select2()
+                          : select3(),
                 ),
                 Container(
                   width: double.infinity,
@@ -222,45 +241,53 @@ class _ProductViewState extends State<ProductView> {
                               const SizedBox(
                                 width: 15.0,
                               ),
-                              Bounce(
-                                onPressed: () {
-                                  selectShows = 1;
-                                  setState(() {});
-                                },
-                                duration: const Duration(milliseconds: 500),
-                                child: Container(
-                                  width: 56.0,
-                                  height: 56.0,
-                                  decoration: BoxDecoration(
-                                      color: selectShows == 1
-                                          ? customBlue
-                                          : bgWhite,
-                                      borderRadius:
-                                          BorderRadius.circular(16.0)),
-                                  child: Image.network(widget.product.PImage),
-                                ),
-                              ),
+                              widget.product.PImage2.isEmpty
+                                  ? Container()
+                                  : Bounce(
+                                      onPressed: () {
+                                        selectShows = 1;
+                                        setState(() {});
+                                      },
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      child: Container(
+                                        width: 56.0,
+                                        height: 56.0,
+                                        decoration: BoxDecoration(
+                                            color: selectShows == 1
+                                                ? customBlue
+                                                : bgWhite,
+                                            borderRadius:
+                                                BorderRadius.circular(16.0)),
+                                        child: Image.network(
+                                            widget.product.PImage),
+                                      ),
+                                    ),
                               const SizedBox(
                                 width: 15.0,
                               ),
-                              Bounce(
-                                onPressed: () {
-                                  selectShows = 2;
-                                  setState(() {});
-                                },
-                                duration: const Duration(milliseconds: 500),
-                                child: Container(
-                                  width: 56.0,
-                                  height: 56.0,
-                                  decoration: BoxDecoration(
-                                      color: selectShows == 2
-                                          ? customBlue
-                                          : bgWhite,
-                                      borderRadius:
-                                          BorderRadius.circular(16.0)),
-                                  child: Image.network(widget.product.PImage),
-                                ),
-                              ),
+                              widget.product.PImage3.isEmpty
+                                  ? Container()
+                                  : Bounce(
+                                      onPressed: () {
+                                        selectShows = 2;
+                                        setState(() {});
+                                      },
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      child: Container(
+                                        width: 56.0,
+                                        height: 56.0,
+                                        decoration: BoxDecoration(
+                                            color: selectShows == 2
+                                                ? customBlue
+                                                : bgWhite,
+                                            borderRadius:
+                                                BorderRadius.circular(16.0)),
+                                        child: Image.network(
+                                            widget.product.PImage),
+                                      ),
+                                    ),
                             ],
                           ),
                         ),
@@ -275,102 +302,151 @@ class _ProductViewState extends State<ProductView> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500)),
                             const Spacer(),
-                            Bounce(
-                              onPressed: () {
-                                countryIndex = 0;
-                                setState(() {});
-                              },
-                              duration: const Duration(milliseconds: 200),
-                              child: Text("EU",
-                                  style: countryIndex == 0
-                                      ? const TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500)
-                                      : const TextStyle(
-                                          // color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                            ),
-                            const SizedBox(width: 5.0),
-                            Bounce(
-                              onPressed: () {
-                                convertSizesList(euSizes);
-                                countryIndex = 1;
-                                setState(() {});
-                              },
-                              duration: const Duration(milliseconds: 200),
-                              child: Text("US",
-                                  style: countryIndex == 1
-                                      ? const TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500)
-                                      : const TextStyle(
-                                          // color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                            ),
-                            const SizedBox(width: 5.0),
-                            Bounce(
-                              onPressed: () {
-                                convertSizesListUk(euSizes);
-                                countryIndex = 2;
-                                setState(() {});
-                              },
-                              duration: const Duration(milliseconds: 200),
-                              child: Text("UK",
-                                  style: countryIndex == 2
-                                      ? const TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500)
-                                      : const TextStyle(
-                                          // color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                            ),
+                            widget.product.selectedcollection == 'shoes'
+                                ? Row(
+                                    children: [
+                                      Bounce(
+                                        onPressed: () {
+                                          countryIndex = 0;
+                                          setState(() {});
+                                        },
+                                        duration:
+                                            const Duration(milliseconds: 200),
+                                        child: Text("EU",
+                                            style: countryIndex == 0
+                                                ? const TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w500)
+                                                : const TextStyle(
+                                                    // color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                      ),
+                                      const SizedBox(width: 5.0),
+                                      Bounce(
+                                        onPressed: () {
+                                          convertSizesList(euSizes);
+                                          countryIndex = 1;
+                                          setState(() {});
+                                        },
+                                        duration:
+                                            const Duration(milliseconds: 200),
+                                        child: Text("US",
+                                            style: countryIndex == 1
+                                                ? const TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w500)
+                                                : const TextStyle(
+                                                    // color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                      ),
+                                      const SizedBox(width: 5.0),
+                                      Bounce(
+                                        onPressed: () {
+                                          convertSizesListUk(euSizes);
+                                          countryIndex = 2;
+                                          setState(() {});
+                                        },
+                                        duration:
+                                            const Duration(milliseconds: 200),
+                                        child: Text("UK",
+                                            style: countryIndex == 2
+                                                ? const TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w500)
+                                                : const TextStyle(
+                                                    // color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                      ),
+                                    ],
+                                  )
+                                : Container()
                           ],
                         ),
                         const SizedBox(height: 10.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            for (int i = 0; i < convertStringToSizes(widget.product.size).length; i++)
-                              Bounce(
-                                onPressed: () {
-                                  sizeIndex = i;
-                                  setState(() {});
-                                },
-                                duration: const Duration(milliseconds: 200),
-                                child: CircleAvatar(
-                                  radius: 18,
-                                  backgroundColor:
-                                      sizeIndex == i ? customBlue : bgWhite,
-                                  child: Text(
-                                    countryIndex == 0
-                                        ? euSizes[i].toString()
-                                        : countryIndex == 1
-                                            ? (i < usSizes.length
-                                                ? usSizes[i].toString()
-                                                : '')
-                                            : (i < ukSizes.length
-                                                ? ukSizes[i].toString()
-                                                : ''),
-                                    style: sizeIndex == i
-                                        ? const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500)
-                                        : const TextStyle(
-                                            // color: Colors.black,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
+                        widget.product.selectedcollection == 'shoes'
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  for (int i = 0; i < euSizes.length; i++)
+                                    Bounce(
+                                      onPressed: () {
+                                        sizeIndex = i;
+                                        setState(() {});
+                                      },
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      child: CircleAvatar(
+                                        radius: 18,
+                                        backgroundColor: sizeIndex == i
+                                            ? customBlue
+                                            : bgWhite,
+                                        child: Text(
+                                          countryIndex == 0
+                                              ? euSizes[i].toString()
+                                              : countryIndex == 1
+                                                  ? (i < usSizes.length
+                                                      ? usSizes[i].toString()
+                                                      : '')
+                                                  : (i < ukSizes.length
+                                                      ? ukSizes[i].toString()
+                                                      : ''),
+                                          style: sizeIndex == i
+                                              ? const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500)
+                                              : const TextStyle(
+                                                  // color: Colors.black,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              )
+                            : Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  for (int i = 0; i < euSizes.length; i++)
+                                    Bounce(
+                                      onPressed: () {
+                                        sizeIndex = i;
+                                        setState(() {});
+                                      },
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      child: CircleAvatar(
+                                        radius: 18,
+                                        backgroundColor: sizeIndex == i
+                                            ? customBlue
+                                            : bgWhite,
+                                        child: Text(
+                                          euSizes[i] as String,
+                                          style: sizeIndex == i
+                                              ? const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500)
+                                              : const TextStyle(
+                                                  // color: Colors.black,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              )
                       ],
                     ),
                   ),
@@ -420,6 +496,7 @@ class _ProductViewState extends State<ProductView> {
               Bounce(
                 onPressed: () {
                   controller.addProduct(widget.product);
+                  print(widget.product.size);
                 },
                 duration: const Duration(milliseconds: 200),
                 child: Container(
@@ -450,5 +527,19 @@ class _ProductViewState extends State<ProductView> {
         ),
       ),
     );
+  }
+
+  Widget select3() {
+    return widget.product.PImage3.isEmpty
+        ? Container()
+        : Image.network(widget.product.PImage3,
+            width: double.infinity, height: 200, fit: BoxFit.cover);
+  }
+
+  Widget select2() {
+    return widget.product.PImage2.isEmpty
+        ? Container()
+        : Image.network(widget.product.PImage2,
+            width: double.infinity, height: 200, fit: BoxFit.cover);
   }
 }

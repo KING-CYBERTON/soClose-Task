@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -5,7 +6,9 @@ import 'package:oxy_boot/View/Menu/card_screen.dart';
 import 'package:oxy_boot/constraints/CustomText.dart';
 
 import '../Controller/CartController.dart';
+import '../Controller/Deliverydetails.dart';
 import '../Controller/productController.dart';
+import '../DataModel/Deliverydetails.dart';
 import '../DataModel/Product.dart';
 import '../DataModel/orderModel.dart';
 import '../DataModel/thankyounote.dart';
@@ -49,21 +52,85 @@ class CartTotal extends StatefulWidget {
 
 class _CartTotalState extends State<CartTotal> {
   final CartController controller = Get.find();
+  final DeliveryDetailsController delivery = Get.find();
+
   final MpesaNameController = TextEditingController();
   final MpesaCodeController = TextEditingController();
   final MpesaNumberController = TextEditingController();
   final ContactNameController = TextEditingController();
   final ContactPhoneController = TextEditingController();
+  List<Map<String, dynamic>> deliveryDetailsList = [];
+  final GlobalKey<FormState> _formKeyy = GlobalKey<FormState>();
+  final TextEditingController streetController = TextEditingController();
+  final TextEditingController townController = TextEditingController();
+  final TextEditingController deliveryController = TextEditingController();
+  final detaildelivery = Get.put(DeliveryDetailsController);
+  String selectedCounty = '';
   final phoneRegex = RegExp(r'^\d{10}$');
   final mpesaCodeRegex = RegExp(r'^[A-Z0-9]{10}$');
-
+  final email = FirebaseAuth.instance.currentUser?.email ?? "No email";
   bool _showPaymentMethod = false; // Add a boolean to control visibility
   final _formKey = GlobalKey<FormState>(); // Add GlobalKey for the Form
+  List<String> counties = [
+    'Nairobi',
+    'Baringo',
+    'Bomet',
+    'Bungoma',
+    'Busia',
+    'Elgeyo-Marakwet',
+    'Embu',
+    'Garissa',
+    'Homa Bay',
+    'Isiolo',
+    'Kajiado',
+    'Kakamega',
+    'Kericho',
+    'Kiambu',
+    'Kilifi',
+    'Kirinyaga',
+    'Kisii',
+    'Kitui',
+    'Kwale',
+    'Laikipia',
+    'Lamu',
+    'Machakos',
+    'Makueni',
+    'Mandera',
+    'Meru',
+    'Migori',
+    'Marsabit',
+    'Nandi',
+    'Narok',
+    'Nyamira',
+    'Nyandarua',
+    'Nyeri',
+    'Samburu',
+    'Siaya',
+    'Taita-Taveta',
+    'Tana River',
+    'Tharaka-Nithi',
+    'Trans Nzoia',
+    'Turkana',
+    'Uasin Gishu',
+    'Vihiga',
+    'Wajir',
+    'West Pokot',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => controller.products.isEmpty
+    return Obx(() {
+    deliveryDetailsList = Get.find<CartController>()
+        .deliveryDetailsList
+        .map((details) => details.toMap())
+        .toList();
+    print(deliveryDetailsList);
+    return  controller.products.isEmpty
           ? const Center(
               child: Text(""),
             )
@@ -138,7 +205,8 @@ class _CartTotalState extends State<CartTotal> {
                                               fontSize: 12,
                                             ),
                                           ),
-                                          Image.asset('assets/images/mpesa.png'),
+                                          Image.asset(
+                                              'assets/images/mpesa.png'),
                                           Radio(
                                             value: "Cash",
                                             groupValue:
@@ -146,6 +214,7 @@ class _CartTotalState extends State<CartTotal> {
                                             onChanged: (value) {
                                               controller.paymentMethod.value =
                                                   value.toString();
+                                              print(deliveryDetailsList);
                                             },
                                           ),
                                           const Text(
@@ -162,12 +231,14 @@ class _CartTotalState extends State<CartTotal> {
                                   // Display M-Pesa specific text fields if the payment method is M-Pesa
                                   if (controller.paymentMethod.value ==
                                       'M-Pesa') ...[
-                                         SizedBox(
-                height: 40,
-                width: 200,
-                child: Image.asset('assets/images/mpesagoodtimes.png',
-                fit: BoxFit.fitWidth,),
-              ),
+                                    SizedBox(
+                                      height: 40,
+                                      width: 200,
+                                      child: Image.asset(
+                                        'assets/images/mpesagoodtimes.png',
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
                                     SizedBox(
                                       width: 300,
                                       child: Container(
@@ -318,7 +389,7 @@ class _CartTotalState extends State<CartTotal> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
                       ElevatedButton(
                         onPressed: () {
@@ -337,7 +408,8 @@ class _CartTotalState extends State<CartTotal> {
                                   mpesaname: MpesaNameController.text,
                                   mpesnumber: MpesaCodeController.text,
                                   mpesacode: MpesaNumberController.text,
-                                
+                                  currentUserEemail: email,
+                                  deliverdetails: deliveryDetailsList,
                                   orderlist:
                                       controller.products.entries.map((entry) {
                                     final product = entry.key;
@@ -347,7 +419,7 @@ class _CartTotalState extends State<CartTotal> {
                                     return productJson;
                                   }).toList(),
                                 );
-
+                                print(deliveryDetailsList);
                                 controller
                                     .postOrderToFirestore(order)
                                     .whenComplete(() {
@@ -374,7 +446,113 @@ class _CartTotalState extends State<CartTotal> {
                   ),
                 ),
               ),
+            );
+    });
+  }
+
+  Widget Deliverydetails() {
+    return Center(
+      child: Container(
+        width: 800,
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(46.0),
+          child: Form(
+            key: _formKeyy,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextFormField(
+                    controller: streetController,
+                    decoration:
+                        const InputDecoration(labelText: 'Street Address'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Street address is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  DropdownButtonFormField(
+                    items: counties.map((county) {
+                      return DropdownMenuItem(
+                        value: county,
+                        child: Text(county),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      selectedCounty = value.toString();
+                    },
+                    decoration: const InputDecoration(labelText: 'County'),
+                    validator: (value) {
+                      if (value == null || value.toString().isEmpty) {
+                        return 'County is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: townController,
+                    decoration: const InputDecoration(labelText: 'Town'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Town is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: deliveryController,
+                    maxLines: 5,
+                    maxLength: 200,
+                    decoration: const InputDecoration(
+                      labelText: 'Delivery Details (Optional)',
+                      hintText: 'Additional information about the delivery',
+                    ),
+                  ),
+                  const SizedBox(height: 32.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKeyy.currentState!.validate()) {
+                            final details = DeliveryDetails(
+                              street: streetController.text,
+                              deliverDetails: deliveryController.text,
+                              town: townController.text,
+                              county: selectedCounty,
+                            );
+
+                            // Add the details to the GetX controller
+                            Get.find<CartController>()
+                                .addDeliveryDetails(details);
+
+                            Navigator.pop(context); // Close the dialog
+                          }
+                        },
+                        child: Text('Submit'),
+                      ),
+                      Container(
+                        color: Colors.red,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context); // Close the dialog
+                            },
+                            child: Text('Back')),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -407,9 +585,12 @@ void _confirmationDialog(String contactName) {
     content: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Center(child: Image.asset('assets/images/goodtimes.png',
-         width: 100,
-                  height: 100,)),
+        Center(
+            child: Image.asset(
+          'assets/images/goodtimes.png',
+          width: 100,
+          height: 100,
+        )),
         Text(
           thankYouNote,
           style: const TextStyle(
@@ -418,7 +599,6 @@ void _confirmationDialog(String contactName) {
             fontSize: 15,
           ),
         ),
-        
       ],
     ),
   );

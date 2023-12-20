@@ -21,6 +21,7 @@ import '../View/CAtegoryPages/profile.dart';
 import '../View/Menu/card_screen.dart';
 import '../View/usersignin/Login.dart';
 import '../View/usersignin/Profile.dart';
+import '../View/usersignin/SignUp.dart';
 import 'silverhomepage.dart';
 
 // ignore: camel_case_types
@@ -48,10 +49,10 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    setBottomBarIndex(0);
-  }
- 
 
+    setBottomBarIndex(0);
+    print(navigationIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,10 +165,12 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
                     // Screen for navigationIndex 2 (About Us)
 
                     // Screen for navigationIndex 3 (Login)
-                     LoginInPage(navigationindex: navigationIndex,),
+                    SignUpPage(),
+
+                   // LoginInPage(),
                     // Screen for navigationIndex 4 (Cart)
                     const CartScreen(),
-                  
+
                     // Add more screens as needed
                   ],
                 ),
@@ -238,7 +241,6 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
                   width: 60.0,
                 ),
                 InkWell(
-                  
                   onTap: () {
                     showDialog(
                       context: context,
@@ -259,8 +261,6 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
                     setState(() {
                       navigationIndex = 2;
                     });
-
-                   
                   },
                   child: Image.asset(
                     "assets/icons/user_ic.png",
@@ -314,7 +314,8 @@ class _mobilescreenlayoutState extends State<mobilescreenlayout> {
                   ),
                   child: Center(
                     child: Obx(() => Text(
-                          CartController.instance.totalProductsInCart.toString(),
+                          CartController.instance.totalProductsInCart
+                              .toString(),
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 12.0,

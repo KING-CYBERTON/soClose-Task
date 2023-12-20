@@ -54,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    child: const Center(child: LoginInPage(navigationindex: 0,)),
+                    child: const Center(child: LoginInPage()),
                   ),
                 ),
               ],

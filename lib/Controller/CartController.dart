@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:get/get.dart";
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import '../DataModel/Deliverydetails.dart';
 import '../DataModel/Product.dart';
 import '../DataModel/orderModel.dart';
 
@@ -10,7 +12,20 @@ class CartController extends GetxController {
   var _products = {}.obs;
   RxString paymentMethod = "Select".obs;
   RxDouble grandTotal = RxDouble(0);
-   RxInt totalProductsInCart = RxInt(0);
+  RxInt totalProductsInCart = RxInt(0);
+  RxList<DeliveryDetails> deliveryDetailsList = <DeliveryDetails>[].obs;
+
+  void addDeliveryDetails(DeliveryDetails details) {
+    deliveryDetailsList.add(details);
+    print(details);
+    Get.snackbar(
+      "Details Saved",
+      "",
+      snackPosition: SnackPosition.TOP,
+      duration: Duration(seconds: 2),
+    );
+  }
+
 
   void addProduct(Product product) {
     if (_products.containsKey(product)) {
@@ -18,7 +33,7 @@ class CartController extends GetxController {
     } else {
       _products[product] = 1;
     }
-     totalProductsInCart.value = totalProducts;
+    totalProductsInCart.value = totalProducts;
 
     Get.snackbar(
       "Product Added",
@@ -34,9 +49,8 @@ class CartController extends GetxController {
     } else {
       _products[product] -= 1;
     }
-     totalProductsInCart.value = totalProducts;
+    totalProductsInCart.value = totalProducts;
   }
-  
 
   void deleteProduct(Product product) {
     _products.remove(product);
@@ -44,7 +58,6 @@ class CartController extends GetxController {
 
   get products => _products;
 
- 
   get productSubtotal => _products.entries
       .map((product) => product.key.price * product.value)
       .toList();
@@ -74,6 +87,7 @@ class CartController extends GetxController {
 
     // Clear the cart
     products.clear();
+    totalProductsInCart.value = 0;
 
     // Show a success message
     Get.back();
@@ -96,7 +110,9 @@ class CartController extends GetxController {
         'mpesaname': order.mpesaname,
         'mpesnumber': order.mpesnumber,
         'mpesacode': order.mpesacode,
-        'orderlist': order.orderlist
+        'orderlist': order.orderlist,
+        'UserEmail': order.currentUserEemail,
+        'Daliverdetails': order.deliverdetails
       };
 
       // Save the order data to Firestore under the 'orders' collection
@@ -104,6 +120,7 @@ class CartController extends GetxController {
 
       // Clear the cart after successful data posting
       products.clear();
+      totalProductsInCart.value = 0;
 
       // Show a success message
       Get.back();
@@ -126,4 +143,6 @@ class CartController extends GetxController {
       );
     }
   }
+
+
 }
